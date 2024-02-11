@@ -2,11 +2,21 @@
   "name": "api_src",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
+    "start": "NODE_PATH=. node server.js",
+    "nodemon": "NODE_PATH=. nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.2",
+    "express": "^4.18.2",
+    "mongoose": "^8.1.1",
+    "notenv": "^2.0.3",
+    "web-push": "^3.6.7"
+  }
 }
