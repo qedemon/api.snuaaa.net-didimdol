@@ -27,9 +27,9 @@ const UserSchema = new mongoose.Schema(
         versionKey : false 
     }
 )
-UserSchema.virtual("user_id").get(function(){
+/*UserSchema.virtual("user_id").get(function(){
     return this._id;
-});
+});*/
 
 const User = mongoose.model("User", UserSchema);
 

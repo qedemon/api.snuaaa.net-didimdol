@@ -1,6 +1,7 @@
 require("dotenv").config();
 const fetch = require("node-fetch");
-const {getUser, register} = require("modules/user/core");
+const {updateUser} = require("modules/user/core");
+const {convertRemoteToLocal} = require("Utility");
 
 const remoteAPIHost = process.env.REMOTE_API_HOST;
 async function authorize(token){
@@ -19,27 +20,10 @@ async function authorize(token){
         const res = await fetch(`${remoteAPIHost}/api/userinfo`, options);
         const {success, CODE, userInfo:remoteUserInfo} = await res.json();
         if(success){
-            const userInfo = await (
-                async (userInfo) =>{
-                    userInfo._id = userInfo.user_id;
-                    userInfo.colNo = userInfo.col_no;
-                    userInfo.name = userInfo.username;
-                    userInfo.aaaNo = userInfo.aaa_no;
-
-                    const {user, error: getUserError} = await getUser(userInfo.user_id);
-                    if(getUserError){
-                        throw getUserError;
-                    }
-                    if(!user){
-                        const {registered, error: registerError} = await register(userInfo);
-                        if(registerError){
-                            throw registerError;
-                        }
-                        return registered.user
-                    }
-                    return user;
-                }
-            )(remoteUserInfo);
+            const {user: userInfo, error} = await updateUser(convertRemoteToLocal.convertUser(remoteUserInfo));
+            if(error){
+                throw error;
+            }
 
             if(userInfo){
                 return {

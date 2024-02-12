@@ -1,7 +1,7 @@
 const getUser = require("./getUser");
-const register = require("./register");
+const updateUser = require("./updateUser");
 
 module.exports = {
     getUser,
-    register
+    updateUser
 }
