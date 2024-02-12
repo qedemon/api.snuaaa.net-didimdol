@@ -6,7 +6,8 @@
   "scripts": {
     "start": "NODE_PATH=. node server.js",
     "nodemon": "NODE_PATH=. nodemon server.js",
-    "test": "NODE_PATH=. jest"
+    "test": "NODE_PATH=. jest",
+    "pm2": "pm2 start ecosystem.config.js"
   },
   "keywords": [],
   "author": "",
