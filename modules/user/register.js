@@ -3,7 +3,6 @@ const {User} = require("models");
 
 async function register(userInfo){
     try{
-        console.log(userInfo);
         await connect();
         const user = await User.findById(userInfo._id);
         const registerdUser = user?
