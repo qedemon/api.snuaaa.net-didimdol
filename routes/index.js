@@ -12,7 +12,7 @@ module.exports = ()=>{
             try{
                 const loaded_module = require(route);
                 if(loaded_module.middleware){
-                    app.use(`/${name}`, loaded_module.middleware);   
+                    app.use(`/${name}`, loaded_module.middleware);
                 }
             }
             catch(error){

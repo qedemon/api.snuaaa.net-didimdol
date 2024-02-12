@@ -1,3 +1,14 @@
 [
-    
+    {
+        "name": "authenticate",
+        "route": "modules/authenticate"
+    },
+    {
+        "name": "time",
+        "route": "modules/time"
+    },
+    {
+        "name": "user",
+        "route": "modules/user"
+    }
 ]

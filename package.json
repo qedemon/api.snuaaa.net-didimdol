@@ -6,17 +6,22 @@
   "scripts": {
     "start": "NODE_PATH=. node server.js",
     "nodemon": "NODE_PATH=. nodemon server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "NODE_PATH=. jest"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.4.2",
     "express": "^4.18.2",
     "mongoose": "^8.1.1",
+    "node-fetch": "^2.7.0",
     "notenv": "^2.0.3",
     "web-push": "^3.6.7"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }
