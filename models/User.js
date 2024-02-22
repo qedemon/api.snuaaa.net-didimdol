@@ -17,7 +17,10 @@ const UserSchema = new mongoose.Schema(
         aaaNo: String,
         id: String,
         email: String,
+        mobile: {type: String, default: null},
+        password: {type: String, default: null},
         isAdmin: {type: Boolean, default: false},
+        isStep: {type: Boolean, default: true},
         colNo: {type: String, default: "23"},
         major: {type: String, default: "아마추어천문학과"},
         push: PushSchema
