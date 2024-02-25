@@ -4,9 +4,9 @@ const express = require("express");
 const app = express();
 app.use("/", express.json());
 app.post("/", async (req, res)=>{
-    const {id, password} = req.body;
+    const {id, password, isStep} = req.body;
     const result = await (async (id, password)=>{
-        const {authenticated, userInfo, token, error} = await authenticate(id, password);
+        const {authenticated, userInfo, token, error} = await authenticate(id, password, isStep);
         if(authenticated){
             return {
                 authenticated,

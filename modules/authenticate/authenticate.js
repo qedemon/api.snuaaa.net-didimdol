@@ -1,9 +1,11 @@
 require("dotenv").config();
 const fetch = require("node-fetch");
+const {updateUser} = require("modules/user/core");
+const {convertRemoteToLocal} = require("Utility");
 
 const remoteAPIHost = process.env.REMOTE_API_HOST;
 
-async function authenticate(id, password){
+async function authenticate(id, password, isStep){
     const data = {id, password, autoLogin: true};
     const options = {
         method: "POST",
@@ -19,8 +21,36 @@ async function authenticate(id, password){
     }
     try{
         const res = await fetch(`${remoteAPIHost}/api/auth/login/`, options);
-        const {sucess, userInfo, token, message} = await res.json();
+        const {sucess, userInfo: authenticatedUserInfo, token, message} = await res.json();
         if(sucess){
+            const remoteUserInfo = await (
+                async (token)=>{
+                    const options = {
+                        method: "GET",
+                        mode: "cors",
+                        chache: "no-chache",
+                        credentials: "same-origin",
+                        headers: {
+                            "Authorization": `Bearer ${token}`
+                        },
+                        redirect: "follow",
+                        referrerPolicy: "no-referrer",
+                    }
+                    const res = await fetch(`${remoteAPIHost}/api/userinfo`, options);
+                    const {success, CODE, userInfo} = await res.json();
+                    if(!success){
+                        throw new Error(CODE);
+                    }
+                    return userInfo;
+                }
+            )(token)
+            const userInfo = await (
+                async (remoteUserInfo)=>{
+                    const {user, error} = await updateUser(convertRemoteToLocal.convertUser(isStep?{...remoteUserInfo, isStep}:remoteUserInfo));
+                    return user;
+                }
+            )(remoteUserInfo);
+
             return {authenticated:sucess, userInfo, token};
         }
         else{
