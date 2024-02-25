@@ -5,7 +5,7 @@ const {convertRemoteToLocal} = require("Utility");
 
 const remoteAPIHost = process.env.REMOTE_API_HOST;
 
-async function authenticate(id, password, isStep){
+async function authenticate(id, password, isStaff){
     const data = {id, password, autoLogin: true};
     const options = {
         method: "POST",
@@ -46,7 +46,7 @@ async function authenticate(id, password, isStep){
             )(token)
             const userInfo = await (
                 async (remoteUserInfo)=>{
-                    const {user, error} = await updateUser(convertRemoteToLocal.convertUser(isStep?{...remoteUserInfo, isStep}:remoteUserInfo));
+                    const {user, error} = await updateUser(convertRemoteToLocal.convertUser(isStaff?{...remoteUserInfo, isStaff}:remoteUserInfo));
                     return user;
                 }
             )(remoteUserInfo);
