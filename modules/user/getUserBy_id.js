@@ -1,10 +1,10 @@
 const {mongoose: {connect}} = require("Utility");
 const {User} = require("models");
 
-async function getUser(filter){
+async function getUserBy_id(userId){
     try{
         await connect();
-        const user = await User.findOne(filter);
+        const user = await User.findById(userId, ["-password"]);
         return {
             user
         }
@@ -16,4 +16,4 @@ async function getUser(filter){
     }
 }
 
-module.exports = getUser;
+module.exports = getUserBy_id;
