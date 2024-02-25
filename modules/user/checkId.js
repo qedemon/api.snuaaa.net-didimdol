@@ -1,5 +1,8 @@
 const {mongoose: {connect}} = require("Utility");
 const {User} = require("models");
+const fetch = require("node-fetch");
+
+const remoteAPIHost = process.env.REMOTE_API_HOST;
 
 async function checkId(id){
     try{
@@ -12,11 +15,23 @@ async function checkId(id){
                 }
             }
         }
-        const user = await User.findOne({id}, ["_id"]);
+        const options = {
+            method: "POST",
+            mode: "cors",
+            chache: "no-chache",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+            },
+            redirect: "follow",
+            referrerPolicy: "no-referrer",
+            body: JSON.stringify({check_id: id})
+        }
+        const {success: remoteCheck} = await (await fetch(`${remoteAPIHost}/api/auth/signup/dupcheck/`, options)).json();
         return {
             result: {
-                check: user?false:true,
-                message: !user?
+                check: remoteCheck,
+                message: remoteCheck?
                     "사용 가능한 아이디입니다.":
                     "중복된 아이디입니다."
             }
