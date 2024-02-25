@@ -28,9 +28,19 @@ async function checkId(id){
             body: JSON.stringify({check_id: id})
         }
         const {success: remoteCheck} = await (await fetch(`${remoteAPIHost}/api/auth/signup/dupcheck/`, options)).json();
+        const localCheck = await (
+            async (id)=>{
+                const user = User.findOne(
+                    {
+                        id
+                    }
+                );
+                return user?false:true;
+            }
+        )(id);
         return {
             result: {
-                check: remoteCheck,
+                check: remoteCheck&&localCheck,
                 message: remoteCheck?
                     "사용 가능한 아이디입니다.":
                     "중복된 아이디입니다."
