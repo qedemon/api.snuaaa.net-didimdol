@@ -1,6 +1,6 @@
 require("dotenv").config();
 const fetch = require("node-fetch");
-const {updateUser} = require("modules/user/core");
+const {getUser} = require("modules/user/core");
 const {convertRemoteToLocal} = require("Utility");
 
 const remoteAPIHost = process.env.REMOTE_API_HOST;
@@ -20,7 +20,7 @@ async function authorize(token){
         const res = await fetch(`${remoteAPIHost}/api/userinfo`, options);
         const {success, CODE, userInfo:remoteUserInfo} = await res.json();
         if(success){
-            const {user: userInfo, error} = await updateUser(convertRemoteToLocal.convertUser(remoteUserInfo));
+            const {user: userInfo, error} = await getUser(convertRemoteToLocal.convertUser(remoteUserInfo)._id);
             if(error){
                 throw error;
             }
