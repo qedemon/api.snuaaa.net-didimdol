@@ -16,7 +16,7 @@ const UserSchema = new mongoose.Schema(
         password: {type: String, default: null},
         aaaNo: String,
         schoolNo: String,
-        id: {type: String, index: true},
+        id: {type: String, index: true, unique: true},
         email: String,
         mobile: {type: String, default: null},
         password: {type: String, default: null},
