@@ -30,7 +30,7 @@ async function checkId(id){
         const {success: remoteCheck} = await (await fetch(`${remoteAPIHost}/api/auth/signup/dupcheck/`, options)).json();
         const localCheck = await (
             async (id)=>{
-                const user = User.findOne(
+                const user = await User.findOne(
                     {
                         id
                     }
