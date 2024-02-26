@@ -41,7 +41,7 @@ async function checkId(id){
         return {
             result: {
                 check: remoteCheck&&localCheck,
-                message: remoteCheck?
+                message: remoteCheck&&localCheck?
                     "사용 가능한 아이디입니다.":
                     "중복된 아이디입니다."
             }
