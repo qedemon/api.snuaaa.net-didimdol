@@ -24,7 +24,7 @@ const UserSchema = new mongoose.Schema(
         isStaff: {type: Boolean, default: false},
         colNo: {type: String, default: "23"},
         major: {type: String, default: "아마추어천문학과"},
-        depositName: String,
+        depositor: String,
         push: PushSchema
     },
     {
