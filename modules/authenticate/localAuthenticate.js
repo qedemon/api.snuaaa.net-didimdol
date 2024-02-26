@@ -11,17 +11,22 @@ async function localAuthenticate(id, password){
         if(!user.password){
             throw new Error("no local password");
         }
+
         const passwordCheck = await bcrypt.compare(password, user.password);
+
         if(!passwordCheck){
             throw new Error("wrong password");
         }
+
+        const userInfo = (
+            (userInfo)=>{
+                const {password, ...remain} = userInfo;
+                return remain;
+            }
+        )(user);
+
         return {
-            userInfo: (
-                (userInfo)=>{
-                    const {password, ...remain} = userInfo;
-                    return remain;
-                }
-            )(user),
+            userInfo,
             token: createToken(userInfo)
         }
     }

@@ -7,7 +7,7 @@ async function authenticate(id, password, isStaff){
     try{
         const authentication = await (
             async (id, password)=>{
-                const [remoteAuthenticating, localAuthenticating] = [
+                const [localAuthenticating, remoteAuthenticating] = [
                     {
                         authenticate: localAuthenticate,
                         origin: "local"
@@ -17,35 +17,34 @@ async function authenticate(id, password, isStaff){
                         origin: "remote"
                     }
                 ].map(
-                    async ({authenticate, origin})=>{
-                        const {error, userInfo, token} = await authenticate(id, password);
-                        if(error){
-                            throw error;
+                    ({authenticate, origin})=>async (id, password)=>{
+                        try{
+                            const {error, userInfo, token} = await authenticate(id, password);
+                            if(error){
+                                throw error;
+                            }
+                            return {
+                                authentication:{
+                                    userInfo, token, origin
+                                }
+                            };  
                         }
-                        return {
-                            userInfo, token, origin
-                        };
+                        catch(error){
+                            return {
+                                error
+                            };
+                        }
                     }
                 );
-                try{
-                    const remoteAuthentication = await remoteAuthenticating;
-                    if(!remoteAuthentication){
-                        throw new Error("remoteAuthentication Error");
-                    }
+                const {authentication: remoteAuthentication, error: remoteError} = await remoteAuthenticating(id, password);
+                if(!remoteError){
                     return remoteAuthentication;
                 }
-                catch(remoteError){
-                    try{
-                        const localAuthentication = await localAuthenticating;
-                        if(!localAuthentication){
-                            throw new Error("localAuthentication Error");
-                        }
-                        return localAuthentication;
-                    }
-                    catch(localError){
-                        throw new Error(`remote error: ${remoteError.message} local error: ${localError.message}`);
-                    }
+                const {authentication: localAuthentication, error: localError} = await localAuthenticating(id, password);
+                if(!localError){
+                    return localAuthentication;
                 }
+                throw new Error(`remote: ${remoteError.message}, local: ${localError.message}`);
             }
         )(id, password);
 

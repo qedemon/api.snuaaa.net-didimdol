@@ -18,13 +18,18 @@ function verifyToken(token){
 }
 
 async function localAuthorize(token){
-    const {payload, error} = verifyToken(token);
-    if(error){
+    const {payload, error: tokenError} = verifyToken(token);
+    if(tokenError){
         return {
-            error
+            error: tokenError
         }
     }
-    const user = await getUserBy_id(payload._id);
+    const {user, error: getUserError} = await getUserBy_id(payload._id);
+    if(getUserError){
+        return {
+            error: getUserError
+        }
+    }
     if(!user){
         throw new Error(`no user found with ${payload._id}`);
     }
