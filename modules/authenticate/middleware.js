@@ -6,12 +6,13 @@ app.use("/", express.json());
 app.post("/", async (req, res)=>{
     const {id, password, isStaff} = req.body;
     const result = await (async (id, password)=>{
-        const {authenticated, userInfo, token, error} = await authenticate(id, password, isStaff);
+        const {authenticated, userInfo, token, origin, error} = await authenticate(id, password, isStaff);
         if(authenticated){
             return {
                 authenticated,
                 userInfo,
-                token
+                token,
+                origin
             }
         }
         else{

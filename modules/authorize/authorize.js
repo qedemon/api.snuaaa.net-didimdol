@@ -1,54 +1,42 @@
 require("dotenv").config();
-const fetch = require("node-fetch");
-const {getUserBy_id} = require("modules/user/core");
-const {convertRemoteToLocal} = require("Utility");
+const {updateUser} = require("../user/core");
+const localAuthorize = require("./localAuthorize");
+const remoteAuthorize = require("./remoteAuthorize");
 
-const remoteAPIHost = process.env.REMOTE_API_HOST;
 async function authorize(token){
-    const options = {
-        method: "GET",
-        mode: "cors",
-        chache: "no-chache",
-        credentials: "same-origin",
-        headers: {
-            "Authorization": `Bearer ${token}`
-        },
-        redirect: "follow",
-        referrerPolicy: "no-referrer",
-    }
     try{
-        const res = await fetch(`${remoteAPIHost}/api/userinfo`, options);
-        const {success, CODE, userInfo:remoteUserInfo} = await res.json();
-        if(success){
-            const {user: userInfo, error} = await getUserBy_id(convertRemoteToLocal.convertUser(remoteUserInfo)._id);
-            if(error){
-                throw error;
+        const authorizings = [
+            {
+                authorize: localAuthorize,
+                origin: "local"
+            },
+            {
+                authorize: remoteAuthorize,
+                origin: "remote"
             }
-
-            if(userInfo){
+        ].map(
+            async function({authorize, origin}){
+                const {user, error} = await authorize(token);
+                if(error){
+                    throw error;
+                }
                 return {
-                    authorized: true,
-                    userInfo,
-                    origin: "local"
+                    user, origin
                 }
             }
-            else{
-                return {
-                    authorized: true,
-                    userInfo: (
-                        ({user_id, id, username: name, col_no, major})=>{
-                            return {
-                                user_id, id, name, col_no, major,
-                                isAdmin: false
-                            }
-                        }
-                    )(remoteUserInfo),
-                    origin: "remote"
-                }
-            }
+        );
+        const result = await Promise.any(authorizings);
+        if(!result){
+            throw new Error("authorization Failed");
         }
-        else{
-            throw new Error(CODE);
+        const {user, error} = await updateUser(result.user);
+        if(error){
+            throw new Error("error occured during update");
+        }
+        return {
+            authorized: true,
+            userInfo: user,
+            origin: result.origin
         }
     }
     catch(error){

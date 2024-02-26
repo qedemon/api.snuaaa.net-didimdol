@@ -3,8 +3,6 @@ const localAuthenticate = require("./localAuthenticate");
 const remoteAuthenticate = require("./remoteAuthenticate");
 const {updateUser} = require("modules/user/core");
 
-const remoteAPIHost = process.env.REMOTE_API_HOST;
-
 async function authenticate(id, password, isStaff){
     try{
         const authentication = await (
@@ -37,8 +35,11 @@ async function authenticate(id, password, isStaff){
             throw new Error("authentication failed");
 
         const {userInfo, token, origin} = authentication;
-        console.log(userInfo, token, origin);
-        return {authenticated:true, userInfo, token, origin};
+        const {user: updated, error} = await updateUser(isStaff?{...userInfo, isStaff}:userInfo);
+        if(error){
+            throw error;
+        }
+        return {authenticated:true, userInfo: updated, token, origin};
     }
     catch(error){
         return {authenticated:false, error};

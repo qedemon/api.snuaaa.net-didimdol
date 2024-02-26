@@ -5,7 +5,7 @@ async function updateUser(userInfo){
     try{
         await connect();
         const {_id, ...userInfoWithoutId} = userInfo
-        const user = await User.findByIdAndUpdate(_id, userInfoWithoutId, {upsert: true, new: true});
+        const user = await User.findByIdAndUpdate(_id, userInfoWithoutId, {upsert: true, new: true, select:["-password"]});
         return {
             user
         }
