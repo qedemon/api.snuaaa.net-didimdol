@@ -1,4 +1,6 @@
 const {mongoose: {connect}} = require("Utility");
+const {Types} = require("mongoose");
+
 const {User} = require("models");
 
 async function getUserBy_id(userId){
@@ -6,7 +8,7 @@ async function getUserBy_id(userId){
         await connect();
         const user = await User.findById(userId, ["-password"]);
         return {
-            user
+            user: user.toObject()
         }
     }
     catch(error){

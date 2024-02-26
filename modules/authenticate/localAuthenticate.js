@@ -1,12 +1,6 @@
 const bcrypt = require("bcryptjs");
 const {getUser} = require("modules/user/core");
-const jwt = require('jsonwebtoken');
-
-function createToken(userInfo){
-    const key=process.env.JWT_KEY;
-    const token=jwt.sign({'_id': userInfo._id}, key, {algorithm: "HS256", expiresIn: "60d", issuer: "snuaaa"});
-    return token;
-}
+const {createToken} = require("Utility");
 
 async function localAuthenticate(id, password){
     try{
@@ -17,17 +11,22 @@ async function localAuthenticate(id, password){
         if(!user.password){
             throw new Error("no local password");
         }
+
         const passwordCheck = await bcrypt.compare(password, user.password);
+
         if(!passwordCheck){
             throw new Error("wrong password");
         }
+
+        const userInfo = (
+            (userInfo)=>{
+                const {password, ...remain} = userInfo;
+                return remain;
+            }
+        )(user);
+
         return {
-            userInfo: (
-                (userInfo)=>{
-                    const {password, ...remain} = userInfo;
-                    return remain;
-                }
-            )(user),
+            userInfo,
             token: createToken(userInfo)
         }
     }

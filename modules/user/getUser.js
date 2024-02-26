@@ -6,7 +6,7 @@ async function getUser(filter){
         await connect();
         const user = await User.findOne(filter);
         return {
-            user
+            user: user.toObject()
         }
     }
     catch(error){

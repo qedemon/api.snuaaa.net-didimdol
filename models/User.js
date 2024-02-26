@@ -12,11 +12,11 @@ const PushSchema = new mongoose.Schema(
 
 const UserSchema = new mongoose.Schema(
     {
-        _id: Number,
         name: String,
         password: {type: String, default: null},
         aaaNo: String,
-        id: String,
+        schoolNo: String,
+        id: {type: String, index: true, unique: true},
         email: String,
         mobile: {type: String, default: null},
         password: {type: String, default: null},
@@ -24,7 +24,7 @@ const UserSchema = new mongoose.Schema(
         isStaff: {type: Boolean, default: false},
         colNo: {type: String, default: "23"},
         major: {type: String, default: "아마추어천문학과"},
-        depositName: String,
+        depositor: String,
         push: PushSchema
     },
     {

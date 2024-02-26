@@ -25,18 +25,24 @@ async function authorize(token){
                 }
             }
         );
-        const result = await Promise.any(authorizings);
-        if(!result){
-            throw new Error("authorization Failed");
+        try{
+            const result = await Promise.any(authorizings);
+            if(!result){
+                throw new Error("authorization Failed");
+            }
+            console.log(result);
+            const {user, error} = await updateUser(result.user);
+            if(error){
+                throw new Error("error occured during update");
+            }
+            return {
+                authorized: true,
+                userInfo: user,
+                origin: result.origin
+            }
         }
-        const {user, error} = await updateUser(result.user);
-        if(error){
-            throw new Error("error occured during update");
-        }
-        return {
-            authorized: true,
-            userInfo: user,
-            origin: result.origin
+        catch(error){
+            throw error;
         }
     }
     catch(error){
