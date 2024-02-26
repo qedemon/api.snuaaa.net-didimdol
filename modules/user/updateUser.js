@@ -4,8 +4,8 @@ const {User} = require("models");
 async function updateUser(userInfo){
     try{
         await connect();
-        const {_id, ...userInfoWithoutId} = userInfo
-        const user = await User.findByIdAndUpdate(_id, userInfoWithoutId, {upsert: true, new: true, select:["-password"]});
+        const {_id, ...userInfoWithout_Id} = userInfo
+        const user = await User.findOneAndUpdate({id: userInfo.id}, userInfoWithout_Id, {upsert: true, new: true, select:["-password"]});
         return {
             user
         }

@@ -7,7 +7,7 @@ async function authenticate(id, password, isStaff){
     try{
         const authentication = await (
             async (id, password)=>{
-                const authenticatings = [
+                const [remoteAuthenticating, localAuthenticating] = [
                     {
                         authenticate: localAuthenticate,
                         origin: "local"
@@ -27,7 +27,25 @@ async function authenticate(id, password, isStaff){
                         };
                     }
                 );
-                return await Promise.any(authenticatings);
+                try{
+                    const remoteAuthentication = await remoteAuthenticating;
+                    if(!remoteAuthentication){
+                        throw new Error("remoteAuthentication Error");
+                    }
+                    return remoteAuthentication;
+                }
+                catch(remoteError){
+                    try{
+                        const localAuthentication = await localAuthenticating;
+                        if(!localAuthentication){
+                            throw new Error("localAuthentication Error");
+                        }
+                        return localAuthentication;
+                    }
+                    catch(localError){
+                        throw new Error(`remote error: ${remoteError.message} local error: ${localError.message}`);
+                    }
+                }
             }
         )(id, password);
 

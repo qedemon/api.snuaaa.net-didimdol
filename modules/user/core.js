@@ -5,7 +5,6 @@ const updateUser = require("./updateUser");
 const register = require("./register");
 
 module.exports = {
-    getUserBy_id,
     getUser,
     checkId,
     updateUser,

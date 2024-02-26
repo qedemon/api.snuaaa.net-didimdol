@@ -12,12 +12,11 @@ const PushSchema = new mongoose.Schema(
 
 const UserSchema = new mongoose.Schema(
     {
-        _id: Number,
         name: String,
         password: {type: String, default: null},
         aaaNo: String,
         schoolNo: String,
-        id: String,
+        id: {type: String, index: true},
         email: String,
         mobile: {type: String, default: null},
         password: {type: String, default: null},
