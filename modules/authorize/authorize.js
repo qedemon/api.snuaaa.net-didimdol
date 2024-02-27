@@ -30,7 +30,6 @@ async function authorize(token){
             if(!result){
                 throw new Error("authorization Failed");
             }
-            console.log(result);
             const {user, error} = await updateUser(result.user);
             if(error){
                 throw new Error("error occured during update");
