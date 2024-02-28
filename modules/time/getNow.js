@@ -1,5 +1,5 @@
 function getNow(){
-    return Date.now();
+    return new Date();
 }
 
 module.exports = getNow;
