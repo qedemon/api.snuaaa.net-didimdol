@@ -26,6 +26,8 @@
     "nodemailer": "^6.9.10",
     "notenv": "^2.0.3",
     "path": "^0.12.7",
+    "uuid": "^9.0.1",
+    "uuidv4": "^6.2.13",
     "web-push": "^3.6.7"
   },
   "devDependencies": {
