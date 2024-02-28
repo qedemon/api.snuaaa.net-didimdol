@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const {getNow} = require("modules/time/core");
 
 const PushSchema = new mongoose.Schema(
     {
@@ -26,6 +27,8 @@ const UserSchema = new mongoose.Schema(
         major: {type: String, default: "아마추어천문학과"},
         depositor: String,
         course: {type: String, default: "학부"},
+        createdAt: {type: Date, default: ()=>{getNow()}},
+        paid: {type: Boolean, default: false},
         push: PushSchema
     },
     {
