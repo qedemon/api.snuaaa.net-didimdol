@@ -25,6 +25,7 @@ const UserSchema = new mongoose.Schema(
         colNo: {type: String, default: "23"},
         major: {type: String, default: "아마추어천문학과"},
         depositor: String,
+        course: {type: String, default: "학부"},
         push: PushSchema
     },
     {

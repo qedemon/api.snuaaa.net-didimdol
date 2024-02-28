@@ -86,6 +86,16 @@ const validations = {
                 result: false,
                 message: "적어도 한글자는 입력해 주세요."
             }
+    },
+    course: (value)=>{
+        return value.length>0?
+            {
+                result: true
+            }:
+            {
+                result: false,
+                message: "과정을 선택해 주세요. (학부 or 대학원)"
+            }
     }
 }
 
@@ -102,7 +112,6 @@ async function register(userInfo){
                 }
             }
         )(userInfo.id);
-
         const filtered = Object.entries(validations)
         .reduce(
             (result, [key, validate])=>{
