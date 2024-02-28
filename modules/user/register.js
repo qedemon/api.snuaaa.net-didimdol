@@ -154,6 +154,15 @@ async function register(userInfo){
             }
         )(added);
 
+        const localRegistered = await User.create(crypted);
+        const localToken = createToken(localRegistered);
+
+        const withoutPassword = (
+            ({password:_, ...userInfo})=>{
+                return userInfo;
+            }
+        )(localRegistered.toObject());
+
         const remoteUserInfo = convertLocalToRemote.convertUser(added);
         
         await request.post("api/auth/signup", remoteUserInfo); //회원가입
@@ -168,18 +177,9 @@ async function register(userInfo){
             }
         )(remoteUserInfo.id, remoteUserInfo.password);
 
-        const localRegistered = await User.create(crypted);
-        const localToken = createToken(localRegistered);
-
-        const withoutPassword = (
-            ({password:_, ...userInfo})=>{
-                return userInfo;
-            }
-        )(localRegistered.toObject());
-
         return {
             userInfo: withoutPassword,
-            token: localToken
+            token: remoteToken || localToken
         }
     }
     catch(error){
