@@ -1,10 +1,11 @@
 const mongoose = require("mongoose");
+const {getNow} = require("modules/time/core");
 
 const AAANoSchema = new mongoose.Schema(
     {
         aaaNo: {type: Number, default: 0},
-        owner: String,
-        aquiredAt: Date
+        owner: {type: String, default: "snuaaa"},
+        aquiredAt: {type: Date, default: ()=>{getNow}}
     },
     {
         versionKey : false 

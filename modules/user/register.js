@@ -94,7 +94,7 @@ const validations = {
             }:
             {
                 result: false,
-                message: "과정을 선택해 주세요. (학부 or 대학원)"
+                message: "과정을 선택해 주세요. (학부 or 대학원 or 기타)"
             }
     }
 }
