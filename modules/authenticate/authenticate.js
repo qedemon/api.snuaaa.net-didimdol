@@ -52,7 +52,7 @@ async function authenticate(id, password, isStaff){
             throw new Error("authentication failed");
 
         const {userInfo, token, origin} = authentication;
-        const {user: updated, error} = await updateUser(isStaff?{...userInfo, isStaff}:userInfo);
+        const {user: updated, error} = await updateUser(isStaff?{...userInfo, isStaff}:userInfo, true);
         if(error){
             throw error;
         }
