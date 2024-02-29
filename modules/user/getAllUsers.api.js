@@ -9,7 +9,7 @@ function attachGetAllUsers(app){
             if(!req.authorization?.userInfo?.isStaff){
                 throw new Error("permission error");
             }
-            const {users, error} = await getAllUsers({isStaff: false}, ["-password", "-_id"]);
+            const {users, error} = await getAllUsers({isStaff: false, colNo: 24}, ["-password", "-_id"]);
             if(error){
                 throw error;
             }

@@ -1,7 +1,7 @@
 const {mongoose: {connect}} = require("Utility");
 const {User} = require("models");
 
-async function updateUser(userInfo){
+async function updateUser(userInfo, upsert=false){
     try{
         await connect();
         const {_id, aaaNo, ...remians} = userInfo;
@@ -12,7 +12,7 @@ async function updateUser(userInfo){
             }:
             remians;
         
-        const user = await User.findOneAndUpdate({id: userInfo.id}, userInfoWithout_Id, {upsert: true, new: true, select:["-password"]});
+        const user = await User.findOneAndUpdate({id: userInfo.id}, userInfoWithout_Id, {upsert, new: true, select:["-password"]});
         return {
             user: user
         }
