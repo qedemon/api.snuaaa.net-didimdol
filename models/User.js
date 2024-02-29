@@ -27,7 +27,7 @@ const UserSchema = new mongoose.Schema(
         major: {type: String, default: "아마추어천문학과"},
         depositor: String,
         course: {type: String, default: "학부"},
-        createdAt: {type: Date, default: ()=>{getNow()}},
+        createdAt: {type: Date, default: new Date("2024-02-29")},
         paid: {type: Boolean, default: false},
         push: PushSchema
     },

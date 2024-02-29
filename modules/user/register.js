@@ -1,10 +1,12 @@
 require("dotenv").config();
 const bcrypt = require("bcryptjs");
-const {mongoose: connect} = require("Utility");
+const {mongoose: {connect}} = require("Utility");
 const User = require("models/User");
 const checkId = require("./checkId");
 const {acquireAAANo} = require("modules/aaaNo/core");
 const {request, convertLocalToRemote, createToken} = require("Utility");
+const {getNow} = require("modules/time/core");
+
 
 const validations = {
     name: (value)=>{
@@ -153,8 +155,9 @@ async function register(userInfo){
                 }
             }
         )(added);
-
-        const localRegistered = await User.create(crypted);
+        
+        await connect();
+        const localRegistered = await User.create({...crypted, createdAt: getNow()});
         const localToken = createToken(localRegistered);
 
         const withoutPassword = (
