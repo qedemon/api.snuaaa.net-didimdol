@@ -163,7 +163,7 @@ async function register(userInfo){
             }
         )(localRegistered.toObject());
 
-        const remoteUserInfo = convertLocalToRemote.convertUser(added);
+        /*const remoteUserInfo = convertLocalToRemote.convertUser(added);
         
         await request.post("api/auth/signup", remoteUserInfo); //회원가입
         const {token: remoteToken, userInfo: loginUserInfo} = await (
@@ -175,11 +175,11 @@ async function register(userInfo){
                 }
                 return {token, userInfo};
             }
-        )(remoteUserInfo.id, remoteUserInfo.password);
+        )(remoteUserInfo.id, remoteUserInfo.password);*/
 
         return {
             userInfo: withoutPassword,
-            token: remoteToken || localToken
+            token: localToken
         }
     }
     catch(error){
