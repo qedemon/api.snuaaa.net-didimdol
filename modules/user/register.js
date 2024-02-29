@@ -179,7 +179,7 @@ async function register(userInfo){
 
         return {
             userInfo: withoutPassword,
-            token: localToken
+            token: remoteToken || localToken
         }
     }
     catch(error){
