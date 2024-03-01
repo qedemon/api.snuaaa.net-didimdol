@@ -9,7 +9,7 @@ async function getAllUsers(filter, select){
             return extract(B)-extract(A);
         });
         return {
-            users: (users??[]).map((user)=>user.toObject())
+            users: (users??[]).map((user)=>user.toObject({virtuals: true}))
         }
     }
     catch(error){

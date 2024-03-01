@@ -6,7 +6,7 @@ async function getUser(filter){
         await connect();
         const user = await User.findOne(filter);
         return {
-            user: user.toObject()
+            user: user.toObject({virtuals: true})
         }
     }
     catch(error){
