@@ -1,5 +1,9 @@
 [
     {
+        "name": "empty",
+        "route": "modules/empty"
+    },
+    {
         "name": "authenticate",
         "route": "modules/authenticate"
     },
