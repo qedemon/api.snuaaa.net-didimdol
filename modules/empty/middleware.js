@@ -1,14 +1,16 @@
 const express = require("express");
-const attachAllDidimdolClasses = require("./allDidimdolClasses.api");
+const attachGet = require("./get.api");
+const attachPost = require("./post.api");
 
 const app = express();
 app.get("/", (req, res)=>{
     res.json(
         {
-            name: "didimdolClass"
+            name: "empty"
         }
     )
 })
-attachAllDidimdolClasses(app);
+attachGet(app);
+attachPost(app);
 
 module.exports = app;
