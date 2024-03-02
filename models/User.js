@@ -43,7 +43,7 @@ const UserSchema = new mongoose.Schema(
             },
             party: {
                 type: Boolean,
-                default: false
+                default: null
             }
         },
         isStudent: {
