@@ -20,7 +20,14 @@ const QRAuthenticationLogSchema = new mongoose.Schema(
     {
         versionKey : false 
     }
-)
+);
+QRAuthenticationLogSchema.virtual("user",
+    {
+        ref: "User",
+        localField: "id",
+        foreignField: "id"
+    }
+);
 
 const QRAuthenticationLog = mongoose.model("QRAuthenticationLog", QRAuthenticationLogSchema);
 

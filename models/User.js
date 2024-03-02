@@ -42,20 +42,22 @@ const UserSchema = new mongoose.Schema(
                 default: null
             }
         },
+        isStudent: Boolean,
         push: PushSchema
     },
     {
-        virtuals: {
-            isStudent: {
-                get() {
-                    return this.colNo==='24';
-                }
-            }
-        },
         toJSON: {virtuals: true},
+        toObject: {virtuals: true},
         versionKey : false 
     }
 )
+UserSchema.virtual("attendances",
+    {
+        ref: "QRAuthenticationLog",
+        localField: "id",
+        foreignField: "id"
+    }
+);
 
 const User = mongoose.model("User", UserSchema);
 

@@ -5,6 +5,7 @@ const catalogue = require("./catalogue");
 
 async function logQRAuthentication(authenticationId, user, at=getNow()){
     try{
+        await connect();
         const qrAuthentication = await QRAuthentication.findById(authenticationId);
         if(!qrAuthentication){
             throw Error(`invalid id ${authenticationId}`);

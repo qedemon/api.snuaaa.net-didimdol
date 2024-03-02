@@ -27,6 +27,13 @@ const QRAuthenticationSchema = new mongoose.Schema(
         context: mongoose.Schema.Types.Mixed
     },
     {
+        virtuals: {
+            logs: {
+                ref: "QRAuthenticationLog",
+                localPath: "_id",
+                foreignPath: "authentication"
+            }
+        },
         versionKey : false,
         methods: {
             isValidAt(at){
