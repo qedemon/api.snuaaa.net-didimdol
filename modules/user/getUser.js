@@ -4,9 +4,9 @@ const {User} = require("models");
 async function getUser(filter){
     try{
         await connect();
-        const user = await User.findOne(filter);
+        const user = await User.findOne(filter).populate("attendances");
         return {
-            user: user.toObject()
+            user: user.toObject({virtuals: true})
         }
     }
     catch(error){

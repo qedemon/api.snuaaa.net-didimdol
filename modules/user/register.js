@@ -157,7 +157,7 @@ async function register(userInfo){
         )(added);
         
         await connect();
-        const localRegistered = await User.create({...crypted, createdAt: getNow()});
+        const localRegistered = await User.create({...crypted, createdAt: getNow(), isStudent: true});
         const localToken = createToken(localRegistered);
 
         const withoutPassword = (

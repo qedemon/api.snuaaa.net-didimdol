@@ -10,5 +10,13 @@
     {
         "name": "user",
         "route": "modules/user"
+    },
+    {
+        "name": "qrAuthentication",
+        "route": "modules/QRAuthentication"
+    },
+    {
+        "name": "didimdolClass",
+        "route": "modules/didimdolClass"
     }
 ]

@@ -12,9 +12,20 @@ async function updateUser(userInfo, upsert=false){
             }:
             remians;
         
-        const user = await User.findOneAndUpdate({id: userInfo.id}, userInfoWithout_Id, {upsert, new: true, select:["-password"]});
+        const user = await User.findOneAndUpdate({id: userInfo.id}, userInfoWithout_Id, {upsert, new: true, select:["-password"]})
+            /*.populate(
+                {
+                    path: "attendances",
+                    select: ["authenticatedAt", "message"],
+                    populate: {
+                        path: "authentication",
+                        select: ["type", "context"]
+                    }
+                }
+            );*/
+
         return {
-            user: user
+            user: user.toObject({virtuals: true})
         }
     }
     catch(error){
