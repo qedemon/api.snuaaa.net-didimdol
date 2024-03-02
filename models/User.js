@@ -40,9 +40,16 @@ const UserSchema = new mongoose.Schema(
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "DidimdolClass",
                 default: null
+            },
+            party: {
+                type: Boolean,
+                default: false
             }
         },
-        isStudent: Boolean,
+        isStudent: {
+            type: Boolean,
+            default: false
+        },
         push: PushSchema
     },
     {
