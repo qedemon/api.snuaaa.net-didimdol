@@ -2,42 +2,36 @@ const mongoose = require("mongoose");
 
 const DidimdolClassSchema = new mongoose.Schema(
     {
-        lecturer: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
-            required: true,
-        },
-        asistants: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "User",
-            }
-        ],
-        students: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "User",
-            }
-        ],
-        time: {
-            day: {
-                type: String,
-                enum: {
-                    values: ["월", "화", "수", "목", "금"]
-                }
+        lecturerId: String,
+        assistantIds: [String],
+        daytime: {
+            type: {
+                day: {
+                    type: String,
+                    enum: {
+                        values: ["월", "화", "수", "목", "금"]
+                    }
+                },
+                start: String,
+                end: String
             },
-            start: String,
-            end: String
+            _id: false
         },
         description: {
-            kewords: [String],
-            ratios: [
-                {
-                    label: String,
-                    ratio: Number
-                }
-            ],
-            introduction: String
+            type:{
+                keywords: [String],
+                ratios: {
+                    type:[
+                        {
+                            label: String,
+                            ratio: Number
+                        }
+                    ],
+                    _id: false
+                },
+                introduction: String
+            },
+            _id: false
         }
     },
     {
@@ -45,7 +39,23 @@ const DidimdolClassSchema = new mongoose.Schema(
         versionKey : false 
     }
 )
+DidimdolClassSchema.virtual("lecturer", {
+    ref: "User",
+    localField: 'lecturerId',
+    foreignField: "id"
+});
+DidimdolClassSchema.virtual("assistants", {
+    ref: "User",
+    localField: 'assistantIds',
+    foreignField: "id"
+});
+DidimdolClassSchema.virtual("students", {
+    ref: "User",
+    localField: '_id',
+    foreignField: "didimdolClass.belongs"
+});
+
 
 const DidimdolClass = mongoose.model("DidimdolClass", DidimdolClassSchema);
 
-module.exports = User;
+module.exports = DidimdolClass;

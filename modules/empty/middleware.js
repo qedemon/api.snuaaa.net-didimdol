@@ -13,6 +13,4 @@ app.get("/", (req, res)=>{
 attachGet(app);
 attachPost(app);
 
-console.log("empty module loaded...");
-
 module.exports = app;

@@ -6,7 +6,6 @@ const {getNow} = require("modules/time/core");
 
 async function emptyFunction(){
     try{
-        await connect();
         return {
             time: getNow()
         }
