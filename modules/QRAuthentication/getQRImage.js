@@ -15,15 +15,15 @@ async function getQRImage(author, authenticationId, at=getNow(), frontendHost=pr
                 if(authenticationId==="register"){
                     return path.join(frontendHost, "#", "Register");
                 }
-                const qrAuthentication = await QRAuthentication.findById(authenticationId);
+                const qrAuthentication = await QRAuthentication.findById({_id: authenticationId});
                 if(!qrAuthentication){
-                    return new Error("invalid id");
+                    throw new Error("invalid id");
                 }
                 if(qrAuthentication.authorId !== author.id){
-                    return new Error("Not an author");
+                    throw new Error("Not an author");
                 }
                 if(!qrAuthentication.isValidAt(at)){
-                    return new Error("expired");
+                    throw new Error("expired");
                 }
                 return path.join(frontendHost, "#", "LogQRAuthentication", qrAuthentication._id);
             }
