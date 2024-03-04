@@ -14,7 +14,7 @@ async function acquireQRAuthentication(author, type, at=getNow()){
             async (type, item, author, at)=>{
                 const found = await QRAuthentication.findOne(
                     {
-                        id: author.id,
+                        authorId: author.id,
                         createdAt: {
                             $lte: at
                         },
