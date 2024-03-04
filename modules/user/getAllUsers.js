@@ -1,11 +1,11 @@
 const {mongoose: {connect}} = require("Utility");
 const {User} = require("models");
 
-async function getAllUsers(filter, select){
+async function getAllUsers(filter={}, select=[]){
     try{
         await connect();
         const users = (await User.find(filter).select(select)).sort(({aaaNo: A}, {aaaNo: B})=>{
-            const extract = (aaaNo)=>parseInt(aaaNo.match(/\d+$/)[0]);
+            const extract = (aaaNo)=>aaaNo?parseInt(aaaNo.match(/\d+$/)[0]):-1;
             return extract(B)-extract(A);
         });
         return {
