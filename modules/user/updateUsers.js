@@ -4,7 +4,8 @@ async function updateUsers(users=[], upsert=false){
     try{
         const updated = await Promise.all(
             users.map(
-                ({isAdmin, isStaff, id, aaaNo, ...user})=>{
+                ({isAdmin, isStaff, aaaNo, ...user})=>{
+                    console.log(user);
                     return updateUser(user, upsert)
                 }
             )
