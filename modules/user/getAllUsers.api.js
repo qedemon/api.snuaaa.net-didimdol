@@ -6,7 +6,7 @@ function attachGetAllUsers(app){
     app.use("/getAllUsers", authorize);
     app.get("/getAllUsers", async (req, res)=>{
         try{
-            if(!req.authorization?.userInfo?.isStaff){
+            if(!req.authorization?.userInfo?.isAdmin){
                 throw new Error("permission error");
             }
             const {users, error} = await getAllUsers({isStaff: false, isStudent: true}, ["-password", "-_id"]);
