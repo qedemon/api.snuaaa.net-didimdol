@@ -3,7 +3,8 @@ const mongoose = require("./mongoose");
 const convertRemoteToLocal = require("./convertRemoteToLocal");
 const convertLocalToRemote = require("./convertLocalToRemote");
 const request = require("./remoteConnection");
-const createToken = require("./createToken")
+const createToken = require("./createToken");
+const Log = require("./Log");
 
 module.exports= {
     Result,
@@ -11,5 +12,6 @@ module.exports= {
     convertRemoteToLocal,
     convertLocalToRemote,
     request,
-    createToken
+    createToken,
+    Log
 }
