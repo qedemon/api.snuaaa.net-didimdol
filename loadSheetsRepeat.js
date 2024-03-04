@@ -1,7 +1,7 @@
 require("dotenv").config();
-const {googleAuthorize, loadAllUsers} = require("./core");
+const {googleAuthorize, loadAllUsers} = require("modules/googleSheet/core");
 
-test("loadAllUsers", async ()=>{
+const load = async ()=>{
     const {sheet} = await googleAuthorize();
     const {url, error} = await loadAllUsers(process.env.GOOGLE_SHEET_ID, sheet);
     if(error){
@@ -9,4 +9,11 @@ test("loadAllUsers", async ()=>{
         throw error;
     }
     console.log(url);
-})
+}
+
+setInterval(
+    ()=>{
+        load();
+    },
+    10*60*1000
+);

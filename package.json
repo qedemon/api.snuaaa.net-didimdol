@@ -10,7 +10,8 @@
     "pm2": "pm2 start ecosystem.config.js",
     "stop": "pm2 stop ecosystem.config.js",
     "send": "NODE_PATH=. node sendEmail.js",
-    "oauth": "NODE_PATH=. node oauth.js"
+    "oauth": "NODE_PATH=. node oauth.js",
+    "loadSheets": "NODE_PATH=. node loadSheets.js"
   },
   "keywords": [],
   "author": "",
