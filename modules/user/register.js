@@ -60,13 +60,13 @@ const validations = {
         }
     },
     id: (value)=>{
-        return (value.length>0)?
+        return (/^[a-zA-Z0-9]{4,12}$/.test(value)>0)?
         {
             result: true
         }:
         {
             result: false,
-            message: "적어도 한 글자 이상 입력해주세요."
+            message: "아이디는 숫자 알파벳 포함 4글자에서 12글자"
         }
     },
     password: (value)=>{
@@ -186,7 +186,6 @@ async function register(userInfo){
         }
     }
     catch(error){
-        console.log(error);
         return {
             error
         }

@@ -4,6 +4,7 @@ const PasswordReset = require("./PasswordReset");
 const QRAuthentication = require("./QRAuthentication");
 const QRAuthenticationLog = require("./QRAuthenticationLog");
 const DidimdolClass = require("./DidimdolClass");
+const Log = require("./Log");
 
 module.exports = {
     User,
@@ -11,5 +12,6 @@ module.exports = {
     PasswordReset,
     QRAuthentication,
     QRAuthenticationLog,
-    DidimdolClass
+    DidimdolClass,
+    Log
 }
