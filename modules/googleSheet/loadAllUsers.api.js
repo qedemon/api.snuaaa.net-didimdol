@@ -10,8 +10,8 @@ function attachLoadAllUsers(app){
     app.get("/loadAllUsers", async (req, res)=>{
         try{
             const {authorization, googleAuthorization} = req;
-            if(!authorization?.userInfo?.isStaff){
-                throw new Error("permission denied");
+            if(!authorization?.userInfo?.isAdmin){
+                throw new Error(`permission denied`);
             }
             const {url, error} = await loadAllUsers(process.env.GOOGLE_SHEET_ID, googleAuthorization?.sheet);
             if(error){
@@ -20,7 +20,7 @@ function attachLoadAllUsers(app){
             res.json(
                 {
                     result: Result.success,
-                    url
+                    url,
                 }
             )
         }
