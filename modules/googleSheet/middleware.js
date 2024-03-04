@@ -1,13 +1,12 @@
-const {googleAuthorize} = require("./core");
+const express = require("express");
+const attachLoadAllUsers = require("./loadAllUsers.api");
 
-module.exports = async (req, res, next)=>{
-    const {authorization, error} = await googleAuthorize();
-    req.googleAuthorization = error?
-        {
-            error
-        }:
-        {
-            authorization
-        };
-    next();
-}
+const app = express();
+app.get("/", (req, res)=>{
+    res.json({
+        test: "google sheet"
+    })
+})
+attachLoadAllUsers(app);
+
+module.exports=app;

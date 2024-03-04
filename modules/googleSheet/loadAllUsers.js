@@ -14,9 +14,9 @@ async function loadAllUsers(sheetId, sheet){
                 valueInputOption: "USER_ENTERED",
                 resource: {
                     values: [
-                        ["가입번호", "이름", "아이디", "전화번호", "이메일", "과정", "입학년도", "전공", "가입비 납부", "입금자명"],
+                        ["가입번호", "이름", "아이디", "전화번호", "이메일", "과정", "입학년도", "전공", "가입비 납부", "입금자명", "가입날짜"],
                         ...(users??[]).map(
-                            ({aaaNo, name, id, mobile, email, course, schoolNo, major, paid, depositor})=>{
+                            ({aaaNo, name, id, mobile, email, course, schoolNo, major, paid, depositor, createdAt})=>{
                                 return [
                                     aaaNo,
                                     name,
@@ -27,7 +27,8 @@ async function loadAllUsers(sheetId, sheet){
                                     schoolNo,
                                     major,
                                     paid?"O":"X",
-                                    depositor
+                                    depositor,
+                                    createdAt.toLocaleString('ko-KR', {timeZone: 'Asia/Seoul'})
                                 ];
                             }
                         )

@@ -22,5 +22,9 @@
     {
         "name": "didimdolClass",
         "route": "modules/didimdolClass"
+    },
+    {
+        "name": "googleSheet",
+        "route": "modules/googleSheet"
     }
 ]

@@ -11,6 +11,8 @@ const load = async ()=>{
     console.log(url);
 }
 
+load();
+
 setInterval(
     ()=>{
         load();
