@@ -8,7 +8,6 @@ test("qrAuthentication", async()=>{
         console.log(error);
         return;
     }
-    console.log(qrAuthentication);
     await (
         async (qrAuthentication)=>{
             const {qrAuthenticationLog, rollback, error} = await logQRAuthentication(qrAuthentication._id, user);
