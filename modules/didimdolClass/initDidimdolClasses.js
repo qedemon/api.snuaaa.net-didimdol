@@ -5,12 +5,13 @@ const {getNow} = require("modules/time/core");
 
 const classSchema = [
     {
+        title: "1조",
         lecturerId: "novasnuaaa",
         assistantIds: ["test30"],
         daytime: {
             day: "월",
-            start: "오후 3시",
-            end: "오후 6시"
+            start: "03:30",
+            end: "06:30"
         },
 
         description: {
@@ -28,6 +29,58 @@ const classSchema = [
             introduction: "국회는 선전포고 어쩌구"
         }
 
+    },
+    {
+        title: "2조",
+        lecturerId: "test31",
+        assistantIds: ["signuptests6", "asdf1234"],
+        daytime: {
+            day: "화",
+            start: "03:30",
+            end: "06:30"
+        },
+
+        description: {
+            keywords: ["별", "술", "무언가?"],
+            ratios: [
+                {
+                    label: "관측",
+                    ratio: 0.5
+                },
+                {
+                    label: "친목",
+                    ratio: 0.5
+                }
+            ],
+            introduction: "국회는 선전포고 어쩌구"
+        }
+        
+    },
+    {
+        title: "3조",
+        lecturerId: "razar0621",
+        assistantIds: ["test36", "test37"],
+        daytime: {
+            day: "화",
+            start: "05:00",
+            end: "08:00"
+        },
+
+        description: {
+            keywords: ["별*", "사랑(0_0)", "무언가?"],
+            ratios: [
+                {
+                    label: "관측",
+                    ratio: 0.8
+                },
+                {
+                    label: "친목",
+                    ratio: 0.2
+                }
+            ],
+            introduction: "국회는 선전포고 어쩌구"
+        }
+        
     }
 ];
 
