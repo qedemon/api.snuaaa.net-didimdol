@@ -1,5 +1,6 @@
 const express = require("express");
 const attachLoadAllUsers = require("./loadAllUsers.api");
+const attachLoad = require("./load.api")
 
 const app = express();
 app.get("/", (req, res)=>{
@@ -8,5 +9,6 @@ app.get("/", (req, res)=>{
     })
 })
 attachLoadAllUsers(app);
+attachLoad(app);
 
 module.exports=app;
