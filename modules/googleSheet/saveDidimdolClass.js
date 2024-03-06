@@ -1,4 +1,4 @@
-const {updateDidimdolClasses} = require("../didimdolClass/core");
+const {updateDidimdolClasses, allDidimdolClasses} = require("../didimdolClass/core");
 const getSheetTitles = require("./getSheetTitles");
 
 async function saveDidimdolClass(sheetId, sheet){
@@ -17,6 +17,9 @@ async function saveDidimdolClass(sheetId, sheet){
             (title)=>/^[0-9]+조$/.test(title)
         )
 
+        const currentClasses = (await allDidimdolClasses(["title"], [])).didimdolClasses.map(({title})=>title);
+        const classesToHide = currentClasses.filter((title)=>!classSheets.includes(`${title}조`));
+
         const classInfoPromises = classSheets.map(
             async (sheetTitle)=>{
 
@@ -32,7 +35,7 @@ async function saveDidimdolClass(sheetId, sheet){
                         const numbers = sheetTitle.match(/[0-9]+/g);
                         return numbers?numbers.join(""):null;
                     }
-                )(values[0][0]);
+                )(sheetTitle);
 
                 const daytime = {
                     day: values[1][1],
@@ -69,6 +72,7 @@ async function saveDidimdolClass(sheetId, sheet){
                 )(values.slice(13));
                     
                 return {
+                    hide: false,
                     title,
                     daytime,
                     description:{
@@ -85,7 +89,7 @@ async function saveDidimdolClass(sheetId, sheet){
         const classInfos = await Promise.all(classInfoPromises);
 
         
-        const result = await updateDidimdolClasses(classInfos);
+        const result = await updateDidimdolClasses([...classInfos, ...classesToHide.map(title=>({title, hide: true}))]);
 
         return {
             result,

@@ -3,9 +3,28 @@ const {googleAuthorize, loadAllUsers, saveDidimdolClass, loadDidimdolClass} = re
 
 const sync = async ()=>{
     const {sheet} = await googleAuthorize();
-    await loadAllUsers(process.env.GOOGLE_SHEET_ID, sheet);
-    await saveDidimdolClass(process.env.GOOGLE_SHEET_ID, sheet);
-    await loadDidimdolClass(process.env.GOOGLE_SHEET_ID, sheet);
+    
+    await [
+        {
+            f:saveDidimdolClass,
+            sheetId: process.env.GOOGLE_SHEET_ID
+        }, 
+        {
+            f: loadDidimdolClass,
+            sheetId: process.env.GOOGLE_SHEET_ID
+        }
+    ].reduce(
+        async (last, {f, sheetId})=>{
+            try{
+                await last;
+                await f(sheetId, sheet)
+            }
+            catch(error){
+                console.log(error);
+            }
+        },
+        Promise.resolve()
+    );
 }
 
 sync();
