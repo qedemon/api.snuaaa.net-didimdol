@@ -4,10 +4,12 @@ const DidimdolClassSchema = new mongoose.Schema(
     {
         title: {
             type: String,
-            default: "1조"
+            default: "1",
+            index: true
         },
         lecturerId: String,
         assistantIds: [String],
+        studentIds: [String],
         daytime: {
             type: {
                 day: {
@@ -40,6 +42,7 @@ const DidimdolClassSchema = new mongoose.Schema(
     },
     {
         toJSON: {virtuals: true},
+        toObject: {virtuals: true},
         versionKey : false 
     }
 )
@@ -55,8 +58,8 @@ DidimdolClassSchema.virtual("assistants", {
 });
 DidimdolClassSchema.virtual("students", {
     ref: "User",
-    localField: '_id',
-    foreignField: "didimdolClass.belongs"
+    localField: 'studentIds',
+    foreignField: "id"
 });
 
 

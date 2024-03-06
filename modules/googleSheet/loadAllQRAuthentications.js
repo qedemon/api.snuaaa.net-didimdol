@@ -1,15 +1,18 @@
+const addSheets = require("./addSheets");
+const getSheetTitles = require("./getSheetTitles");
 const {getAllAuthentications} = require("modules/QRAuthentication/core");
 
 async function loadAllQRAuthentications(sheetId, sheet){
     try{
-        const {data} = await sheet.spreadsheets.get(
-            {
-                spreadsheetId: sheetId
-            }
-        );
-        const sheetTitles = data.sheets.map(
-            ({properties: {title}})=>title
-        )
+        const sheetTitles = await (
+            async (sheetId, sheet)=>{
+                const {sheetTitles, error} = await getSheetTitles(sheetId, sheet);
+                if(error){
+                    throw error;
+                }
+                return sheetTitles;
+             }
+        )(sheetId, sheet);
 
         const authentications = await (
             async ()=>{
@@ -25,33 +28,7 @@ async function loadAllQRAuthentications(sheetId, sheet){
             .map(({title})=>title)
             .filter((title)=>!sheetTitles.includes(title));
         
-        await (
-            async (sheetsToAdd)=>{
-                if(sheetsToAdd.length===0){
-                    return null;
-                }
-                const requests = sheetsToAdd.map(
-                    (title)=>(
-                        {
-                            addSheet: {
-                                properties: {
-                                    title
-                                }
-                            }
-                        }
-                    )
-                );
-                const result = await sheet.spreadsheets.batchUpdate(
-                    {
-                        spreadsheetId: sheetId,
-                        resource: {
-                            requests
-                        }
-                    }
-                )
-                return result;
-            }
-        )(sheetsToAdd);
+        await addSheets(sheetsToAdd, sheetId, sheet);
         
         const results = await Promise.all(
             authentications.map(

@@ -1,19 +1,17 @@
 require("dotenv").config();
 const {mongoose: {connect}} = require("Utility");
 const {DidimdolClass} = require("models");
-const {request, convertLocalToRemote, createToken} = require("Utility");
-const {getNow} = require("modules/time/core");
 
 async function allDidimdolClasses(){
     try{
         await connect();
         const didimdolClasses = await DidimdolClass.find({})
-            .populate({path: "lecturer", select: ["name", "id"]})
-            .populate({path: "assistants", select: ["name", "id"]})
-            .populate({path: "students", select: ["name", "id"]});
+            .populate({path: "lecturer", select: ["name", "id", "major", "colNo"]})
+            .populate({path: "assistants", select: ["name", "id", "major", "colNo"]})
+            .populate({path: "students", select: ["name", "id", "major", "colNo"]});
             
         return {
-            didimdolClasses
+            didimdolClasses: didimdolClasses.map(didimdolClass=>didimdolClass.toObject())
         }
     }
     catch(error){

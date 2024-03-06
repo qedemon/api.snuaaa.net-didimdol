@@ -36,11 +36,6 @@ const UserSchema = new mongoose.Schema(
                     ref: "DidimdolClass"
                 }
             ],
-            belongs: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "DidimdolClass",
-                default: null
-            },
             party: {
                 type: Boolean,
                 default: null
@@ -64,6 +59,13 @@ UserSchema.virtual("attendances",
         ref: "QRAuthenticationLog",
         localField: "id",
         foreignField: "id"
+    }
+);
+UserSchema.virtual("didimdolClass.belongs",
+    {
+        ref: "DidimdolClass",
+        localField: "id",
+        foreignField: "studentIds"
     }
 );
 

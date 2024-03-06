@@ -1,21 +1,18 @@
 require("dotenv").config();
-const {googleAuthorize, loadAllUsers} = require("modules/googleSheet/core");
+const {googleAuthorize, loadAllUsers, saveDidimdolClass, loadDidimdolClass} = require("modules/googleSheet/core");
 
-const load = async ()=>{
+const sync = async ()=>{
     const {sheet} = await googleAuthorize();
-    const {url, error} = await loadAllUsers(process.env.GOOGLE_SHEET_ID, sheet);
-    if(error){
-        console.error(error);
-        throw error;
-    }
-    console.log(url);
+    await loadAllUsers(process.env.GOOGLE_SHEET_ID, sheet);
+    await saveDidimdolClass(process.env.GOOGLE_SHEET_ID, sheet);
+    await loadDidimdolClass(process.env.GOOGLE_SHEET_ID, sheet);
 }
 
-load();
+sync();
 
 setInterval(
     ()=>{
-        load();
+        sync();
     },
     10*60*1000
 );
