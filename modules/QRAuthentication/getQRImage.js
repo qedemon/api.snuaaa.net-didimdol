@@ -7,7 +7,7 @@ const catalogue = require("./catalogue");
 const QRCode = require("qrcode");
 
 
-async function getQRImage(author, authenticationId, at=getNow(), frontendHost=process.env.FRONTENT_HOST){
+async function getQRImage(author, authenticationId, at=getNow(), frontendHost=process.env.FRONTEND_HOST){
     try{
         await connect;
         const targetURL = await (

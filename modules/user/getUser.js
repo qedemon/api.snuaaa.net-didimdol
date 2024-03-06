@@ -5,6 +5,9 @@ async function getUser(filter){
     try{
         await connect();
         const user = await User.findOne(filter).populate("attendances");
+        if(!user){
+            throw new Error("no user");
+        }
         return {
             user: user.toObject({virtuals: true})
         }

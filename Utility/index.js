@@ -5,6 +5,7 @@ const convertLocalToRemote = require("./convertLocalToRemote");
 const request = require("./remoteConnection");
 const createToken = require("./createToken");
 const Log = require("./Log");
+const sendEmail = require("./sendEmail");
 
 module.exports= {
     Result,
@@ -13,5 +14,6 @@ module.exports= {
     convertLocalToRemote,
     request,
     createToken,
-    Log
+    Log,
+    sendEmail
 }
