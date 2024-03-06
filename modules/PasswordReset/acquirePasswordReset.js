@@ -1,7 +1,7 @@
 const {mongoose: {connect}} = require("Utility");
 const {PasswordReset} = require("models");
 
-async function aquirePasswordReset(id){
+async function acquirePasswordReset(id){
     try{
         await connect();
         await PasswordReset.deleteMany({id});
@@ -22,4 +22,4 @@ async function aquirePasswordReset(id){
     }
 }
 
-module.exports = aquirePasswordReset;
+module.exports = acquirePasswordReset;

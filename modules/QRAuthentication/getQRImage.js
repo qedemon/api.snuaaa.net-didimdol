@@ -7,13 +7,13 @@ const catalogue = require("./catalogue");
 const QRCode = require("qrcode");
 
 
-async function getQRImage(author, authenticationId, at=getNow(), frontendHost=process.env.FRONTENT_HOST){
+async function getQRImage(author, authenticationId, at=getNow(), frontendHost=process.env.FRONTEND_HOST){
     try{
         await connect;
         const targetURL = await (
             async (author, authenticationId, at)=>{
                 if(authenticationId==="register"){
-                    return "http://"+path.join(frontendHost, "#", "Register");
+                    return "https://"+path.join(frontendHost, "#", "Register");
                 }
                 const qrAuthentication = await QRAuthentication.findById({_id: authenticationId});
                 if(!qrAuthentication){
@@ -25,7 +25,7 @@ async function getQRImage(author, authenticationId, at=getNow(), frontendHost=pr
                 if(!qrAuthentication.isValidAt(at)){
                     throw new Error("expired");
                 }
-                return "http://"+path.join(frontendHost, "#", "LogQRAuthentication", qrAuthentication._id);
+                return "https://"+path.join(frontendHost, "#", "LogQRAuthentication", qrAuthentication._id);
             }
         )(author, authenticationId, at);
         return {
@@ -33,6 +33,7 @@ async function getQRImage(author, authenticationId, at=getNow(), frontendHost=pr
             dataURL: await new Promise(
                 (resolve, reject)=>{
                     QRCode.toDataURL(targetURL, (error, url)=>{
+                        console.log(targetURL);
                         if(error){
                             reject(error);
                         }

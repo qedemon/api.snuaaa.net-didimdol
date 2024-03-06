@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 const DidimdolClassSchema = new mongoose.Schema(
     {
+        title: {
+            type: String,
+            default: "1조"
+        },
         lecturerId: String,
         assistantIds: [String],
         daytime: {
