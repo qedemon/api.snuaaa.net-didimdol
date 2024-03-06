@@ -2,6 +2,7 @@ const express = require("express");
 const attachAcquireQRAuthentication = require("./acquireQRAuthentication.api");
 const attachLogQRAuthentication = require("./logQRAuthentication.api");
 const attachGetQRImage = require("./getQRImage.api");
+const attachGetQRAuthentication = require("./getQRAuthentication.api")
 
 const app = express();
 app.get("/", (req, res)=>{
@@ -14,5 +15,7 @@ app.get("/", (req, res)=>{
 attachAcquireQRAuthentication(app);
 attachLogQRAuthentication(app);
 attachGetQRImage(app);
+attachLogQRAuthentication(app);
+attachGetQRAuthentication(app);
 
 module.exports = app;

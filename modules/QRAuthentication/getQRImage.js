@@ -15,7 +15,7 @@ async function getQRImage(author, authenticationId, at=getNow(), frontendHost=pr
                 if(authenticationId==="register"){
                     return "https://"+path.join(frontendHost, "#", "Register");
                 }
-                const qrAuthentication = await QRAuthentication.findById({_id: authenticationId});
+                const qrAuthentication = await QRAuthentication.findById({_id: authenticationId});  
                 if(!qrAuthentication){
                     throw new Error("invalid id");
                 }
@@ -27,7 +27,7 @@ async function getQRImage(author, authenticationId, at=getNow(), frontendHost=pr
                 }
                 return "https://"+path.join(frontendHost, "#", "LogQRAuthentication", qrAuthentication._id);
             }
-        )(author, authenticationId, at);
+        )(author, authenticationId, at);    
         return {
             targetURL,
             dataURL: await new Promise(
