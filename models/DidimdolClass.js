@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 const DidimdolClassSchema = new mongoose.Schema(
     {
+        hide:{
+            type: Boolean,
+            default: false  
+        },
         title: {
             type: String,
             default: "1",

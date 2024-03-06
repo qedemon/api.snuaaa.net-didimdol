@@ -2,13 +2,15 @@ require("dotenv").config();
 const {mongoose: {connect}} = require("Utility");
 const {DidimdolClass} = require("models");
 
-async function allDidimdolClasses(){
+async function allDidimdolClasses(select=[], populate=["lecturer", "assistants", "students"]){
     try{
         await connect();
-        const didimdolClasses = await DidimdolClass.find({})
-            .populate({path: "lecturer", select: ["name", "id", "major", "colNo"]})
-            .populate({path: "assistants", select: ["name", "id", "major", "colNo"]})
-            .populate({path: "students", select: ["name", "id", "major", "colNo"]});
+        const didimdolClasses = await populate.reduce(
+            (result, populate)=>{
+                return result.populate({path: populate, select: ["name", "id", "major", "colNo"]});
+            },
+            DidimdolClass.find({hide: {$ne: true}}).select(select)
+        );
             
         return {
             didimdolClasses: didimdolClasses.map(didimdolClass=>didimdolClass.toObject())
