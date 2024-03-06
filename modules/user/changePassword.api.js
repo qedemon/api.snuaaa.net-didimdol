@@ -1,6 +1,6 @@
 const express = require("express");
 const authorize = require("modules/authorize/middleware");
-const {validatePasswordReset} = require("modules/PasswordReset/core");
+const {validatePasswordReset, deletePasswordReset} = require("modules/PasswordReset/core");
 const {changePassword, matchPassword} = require("./core");
 const {Result} = require("Utility");
 
@@ -26,6 +26,7 @@ function attachChagnePassword(app){
             if(!user){
                 return new Error("change password failed");
             }
+            await deletePasswordReset(id);
             res.json(
                 {
                     result: Result.success,

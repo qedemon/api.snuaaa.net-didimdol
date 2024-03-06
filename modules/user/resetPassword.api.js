@@ -29,12 +29,11 @@ function attachResetPassword(app){
                     return passwordReset;
                 }
             )(user.id);
-
             res.json(
                 {
                     result: Result.success,
                     sendEmail: await sendEmail(user.email, "password reset", 
-                        `<a href="https://${path.join(process.env.FRONTEND_HOST, "changePassword", passwordReset.uuid)}">${user.id} 비밀번호 찾기</a>`)
+                        `<a href="https://${path.join(process.env.FRONTEND_HOST, "#", "changePassword", passwordReset.uuid)}">${user.id} 비밀번호 찾기</a>`)
                 }
             )   
         }

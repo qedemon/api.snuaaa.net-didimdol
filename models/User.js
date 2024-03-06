@@ -50,6 +50,7 @@ const UserSchema = new mongoose.Schema(
             type: Boolean,
             default: false
         },
+        profilePath: String,
         push: PushSchema
     },
     {
