@@ -28,7 +28,7 @@ async function loadDidimdolClass(sheetId, sheet){
 
         const sheetsToAdd = didimdolClasses.map(({title})=>`${title}조`).filter(title=>!sheetTitles.includes(title));
         if(sheetsToAdd.length>0){
-            addSheets(sheetsToAdd);
+            await addSheets(sheetsToAdd, sheetId, sheet);
         }
         const loadings = didimdolClasses.map(
             async (didimdolClass)=>{
