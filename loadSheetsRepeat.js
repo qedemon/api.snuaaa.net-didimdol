@@ -1,16 +1,24 @@
 require("dotenv").config();
-const {googleAuthorize, loadAllUsers, saveDidimdolClass, loadDidimdolClass} = require("modules/googleSheet/core");
+const {googleAuthorize, loadAllUsers, saveAllUsers, saveDidimdolClass, loadDidimdolClass} = require("modules/googleSheet/core");
 
 const sync = async ()=>{
     const {sheet} = await googleAuthorize();
     
     await [
         {
+            f:saveAllUsers,
+            sheetId: process.env.GOOGLE_SHEET_ID
+        },
+        {
+            f:loadAllUsers,
+            sheetId: process.env.GOOGLE_SHEET_ID
+        },
+        {
             f:saveDidimdolClass,
             sheetId: process.env.GOOGLE_SHEET_ID
         }, 
         {
-            f: loadDidimdolClass,
+            f:loadDidimdolClass,
             sheetId: process.env.GOOGLE_SHEET_ID
         }
     ].reduce(
