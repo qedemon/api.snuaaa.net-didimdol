@@ -1,7 +1,7 @@
 module.exports = {
     
     "별모임": {
-        span: 10*60*1000,
+        span: 60*60*1000,
         context: (at)=>{
             const koreanDate = at.toLocaleDateString('ko-KR', {timeZone: 'Asia/Seoul'})
             return {
@@ -27,7 +27,7 @@ module.exports = {
     },
     
     "자율돔관": {
-        span: 10*60*1000,
+        span: 60*60*1000,
         context: (at)=>{
             const koreanDate = at.toLocaleDateString('ko-KR', {timeZone: 'Asia/Seoul'})
             return {
@@ -40,7 +40,7 @@ module.exports = {
     },
     
     "소관": {
-        span: 10*60*1000,
+        span: 60*60*1000,
         context: (at)=>{
             const koreanDate = at.toLocaleDateString('ko-KR', {timeZone: 'Asia/Seoul'})
             return {
