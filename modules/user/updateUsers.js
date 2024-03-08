@@ -5,7 +5,6 @@ async function updateUsers(users=[], upsert=false){
         const updated = await Promise.all(
             users.map(
                 ({isAdmin, isStaff, aaaNo, ...user})=>{
-                    console.log(user);
                     return updateUser(user, upsert)
                 }
             )

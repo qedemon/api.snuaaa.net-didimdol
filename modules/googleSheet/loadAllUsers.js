@@ -4,7 +4,7 @@ async function loadAllUsers(sheetId, sheet){
     try{
         const students = await (
             async ()=>{
-                const {users, error} = await getAllUsers({isStudent: true});
+                const {users, error} = await getAllUsers({isStudent: true}, [], ["didimdolClass.wants"]);
                 if(error){
                     throw error;
                 }
@@ -25,18 +25,19 @@ async function loadAllUsers(sheetId, sheet){
             {
                 range: "가입자",
                 target: students,
-                labels: ["가입번호", "아이디", "이름", "전화번호", "이메일", "과정", "입학년도", "전공", "가입비 납부", "입금자명", "가입날짜"],
-                values: ["aaaNo", "id", "name", "mobile", "email", "course", "schoolNo", "major", ({paid})=>paid?"O":"X", "depositor", 
-                    ({createdAt})=>createdAt.toLocaleString('ko-KR', {timeZone: 'Asia/Seoul'})
+                labels: ["가입번호", "아이디", "이름", "전화번호", "이메일", "과정", "입학년도", "전공", "가입비 납부", "입금자명", "가입날짜", "신환회 참석", "1지망", "2지망", "3지망"],
+                values: ["aaaNo", "id", "name", "mobile", "email", "course", "schoolNo", "major", ({paid})=>paid?"O":"X", "depositor",
+                    ({createdAt})=>createdAt.toLocaleString('ko-KR', {timeZone: 'Asia/Seoul'}),
+                    ({didimdolClass: {party}})=>party?"O":(party===false)?"X":"?",
+                    ...Array.from({length: 3}).map(
+                        (_, index)=>({didimdolClass: {wants}})=>Array.isArray(wants)&&wants[index]?`${wants[index].title}조 (${wants[index].daytime.day} ${wants[index].daytime.start}~${wants[index].daytime.end})`:"")
                 ]
             },
             {
                 range: "강사 조장",
                 target: staffs,
-                labels: ["가입번호", "아이디", "이름", "전화번호", "이메일", "과정", "입학년도", "전공", "가입비 납부", "입금자명", "가입날짜"],
-                values: ["aaaNo", "id", "name", "mobile", "email", "course", "schoolNo", "major", ({paid})=>paid?"O":"X", "depositor", 
-                    ({createdAt})=>createdAt.toLocaleString('ko-KR', {timeZone: 'Asia/Seoul'})
-                ]
+                labels: ["가입번호", "아이디", "이름", "전화번호", "이메일", "과정", "입학년도", "전공"],
+                values: ["aaaNo", "id", "name", "mobile", "email", "course", "schoolNo", "major"]
             }
         ].map(
             async ({range, target, labels, values})=>{
