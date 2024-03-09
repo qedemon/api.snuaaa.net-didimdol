@@ -52,10 +52,19 @@ async function loadAllUsers(sheetId, sheet){
                 range: "그외",
                 target: etc,
                 labels: ["가입번호", "아이디", "이름", "전공", "isStudent", "isStaff"],
-                values: ["aaaNo", "id", "name", "major", ({isStudent})=>isStudent?"O":"X", ({isStaff})=>isStaff?"O":"X"]
+                values: ["aaaNo", "id", "name", "major", ({isStudent})=>isStudent?"O":"X", ({isStaff})=>isStaff?"O":"X"],
+                replace: true
             }
         ].map(
-            async ({range, target, labels, values})=>{
+            async ({range, target, labels, values, replace})=>{
+                if(replace){
+                    await sheet.spreadsheets.values.clear(
+                        {
+                            spreadsheetId: sheetId,
+                            range
+                        }
+                    )
+                }
                 const result = await sheet.spreadsheets.values.update(
                     {
                         spreadsheetId: sheetId,
