@@ -13,9 +13,11 @@ async function googleAuthorize(){
         }
         const authorization = google.auth.fromJSON(credentials);
         const sheet = google.sheets({version: "v4", auth: authorization});
+        const drive = google.drive({version: "v3", auth: authorization});
         return {
             authorization,
-            sheet
+            sheet,
+            drive
         }
     }
     catch(error){

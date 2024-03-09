@@ -7,7 +7,7 @@ const {google} = require('googleapis');
 
 const TOKEN_PATH = path.join(process.cwd(), process.env.GOOGLE_OAUTH_TOKEN_PATH);
 const CREDENTIALS_PATH = path.join(process.cwd(), process.env.GOOGLE_OAUTH_CREDENTIALS_PATH);
-const SCOPES = ["https://www.googleapis.com/auth/spreadsheets"];
+const SCOPES = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive.readonly"];
 
 (
     async ()=>{

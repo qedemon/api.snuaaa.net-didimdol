@@ -2,7 +2,7 @@ const express = require("express");
 const authorize = require("modules/authorize/middleware");
 const {validatePasswordReset, deletePasswordReset} = require("modules/PasswordReset/core");
 const {changePassword, matchPassword} = require("./core");
-const {Result} = require("Utility");
+const {Result, Log} = require("Utility");
 
 function attachChagnePassword(app){
     app.use("/changePassword", authorize);
