@@ -20,6 +20,15 @@ async function loadAllUsers(sheetId, sheet){
                 return users;
             }
         )();
+        const etc = await (
+            async ()=>{
+                const {users, error} = await getAllUsers({isStaff: {$ne: true}, isStudent: {$ne: true}});
+                if(error){
+                    throw error;
+                }
+                return users;
+            }
+        )();
 
         const updationgs = [
             {
@@ -38,6 +47,12 @@ async function loadAllUsers(sheetId, sheet){
                 target: staffs,
                 labels: ["가입번호", "아이디", "이름", "전화번호", "이메일", "과정", "입학년도", "전공"],
                 values: ["aaaNo", "id", "name", "mobile", "email", "course", "schoolNo", "major"]
+            },
+            {
+                range: "그외",
+                target: etc,
+                labels: ["가입번호", "아이디", "이름", "전공", "isStudent", "isStaff"],
+                values: ["aaaNo", "id", "name", "major", ({isStudent})=>isStudent?"O":"X", ({isStaff})=>isStaff?"O":"X"]
             }
         ].map(
             async ({range, target, labels, values})=>{
