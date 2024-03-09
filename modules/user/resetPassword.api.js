@@ -8,7 +8,13 @@ const {Result, sendEmail} = require("Utility");
 function attachResetPassword(app){
     app.use("/resetPassword", express.json());
     app.post('/resetPassword', async (req, res)=>{
-        const {id, email, name} = req.body;
+        const {id, email, name} = (
+            (user)=>({
+                id: user.id.trim(),
+                email: user.email.trim(),
+                name: user.name.trim()
+            })
+        )(req.body);
         try{
             const user = await (
                 async (id, email, name)=>{

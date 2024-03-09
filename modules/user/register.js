@@ -134,13 +134,15 @@ async function register(userInfo){
             {}
         );
         const added = await (
-            async ({colNo, ...userInfo})=>{
+            async ({name, email, colNo, ...userInfo})=>{
                 const {aaaNo, error} = await acquireAAANo(userInfo.id);
                 if(error){
                     throw error;
                 }
                 return {
                     ...userInfo,
+                    name: name.trim(),
+                    email: email.trim(),
                     colNo: process.env.CURRENT_COL_NO,//동아리학번
                     schoolNo: colNo,//학부학번
                     aaaNo

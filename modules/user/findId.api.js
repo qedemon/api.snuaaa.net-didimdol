@@ -6,7 +6,7 @@ function attachFindId(app){
     app.get("/findId/:name/:email", async (req, res)=>{
         try{
             const {name, email} = req.params;
-            const {user, error} = await getUser({name, email});
+            const {user, error} = await getUser({name: name.trim(), email: email.trim()});
             
             if(error){
                 throw error;
