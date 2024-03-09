@@ -11,9 +11,6 @@ async function updateUser(userInfo, upsert=false){
                 ...remians
             }:
             remians;
-        if(userInfoWithout_Id.id==="qedemon"){
-            console.log(userInfoWithout_Id);
-        }
         const user = await User.findOneAndUpdate({id: userInfo.id}, userInfoWithout_Id, {upsert, new: true, select:["-password"]})
             /*.populate(
                 {
