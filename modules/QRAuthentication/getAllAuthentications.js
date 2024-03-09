@@ -6,7 +6,7 @@ const catalogue = require("./catalogue");
 async function getAllAuthentications(type){
     try{
         await connect();
-        const authenticationMap = (await QRAuthentication.find({type}).populate("logs"))
+        const authenticationMap = (await QRAuthentication.find(Array.isArray(type)?{type: {$in: type}}:{type}).populate("logs"))
         .filter(
             ({logs})=>logs.length
         )
