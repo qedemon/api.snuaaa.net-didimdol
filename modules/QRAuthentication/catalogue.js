@@ -18,7 +18,7 @@ module.exports = {
         context: (at)=>{
             const koreanDate = at.toLocaleDateString('ko-KR', {timeZone: 'Asia/Seoul'})
             return {
-                title: `${koreanDate} 별모임`
+                title: `${koreanDate} 디딤돌`
             }
         },
         logMessage: (user, at, context)=>{
