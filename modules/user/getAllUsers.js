@@ -17,9 +17,16 @@ async function getAllUsers(filter={}, select=[], populate=["didimdolClass.belong
                     query
                 )
             )(User.find(filter).select(select))
-        ).sort(({aaaNo: A}, {aaaNo: B})=>{
+        ).sort((A, B)=>{
             const extract = (aaaNo)=>aaaNo?parseInt(aaaNo.match(/\d+$/)[0]):-1;
-            return extract(B)-extract(A);
+            if(A.createdAt>B.createdAt){
+                return -1
+            }
+            else if(A.createdAt<B.createdAt){
+                return 1;
+            }
+            else
+                return extract(B.aaaNo)-extract(A.aaaNo);
         });
 
         return {
