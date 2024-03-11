@@ -18,4 +18,9 @@ attachGetQRImage(app);
 attachLogQRAuthentication(app);
 attachGetQRAuthentication(app);
 
+app.onLoad = ()=>{
+    console.log("QRAuthentication module loaded.");
+    return true;
+}
+
 module.exports = app;

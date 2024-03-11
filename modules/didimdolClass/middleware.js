@@ -11,4 +11,9 @@ app.get("/", (req, res)=>{
 })
 attachAllDidimdolClasses(app);
 
+app.onLoad = ()=>{
+    console.log("didimdolClass module loaded...");
+    return true;
+}
+
 module.exports = app;

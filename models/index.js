@@ -5,6 +5,7 @@ const QRAuthentication = require("./QRAuthentication");
 const QRAuthenticationLog = require("./QRAuthenticationLog");
 const DidimdolClass = require("./DidimdolClass");
 const Log = require("./Log");
+const GoogleDriveWatch = require("./GoogleDriveWatch");
 
 module.exports = {
     User,
@@ -13,5 +14,6 @@ module.exports = {
     QRAuthentication,
     QRAuthenticationLog,
     DidimdolClass,
-    Log
+    Log,
+    GoogleDriveWatch
 }

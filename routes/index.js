@@ -7,12 +7,17 @@ const routes = JSON.parse(fs.readFileSync(path.join(__dirname, "routes.json"), "
 module.exports = ()=>{
     const app = express();
     app.use(cors());
+    app.onLoads = []
+    app.onLoad = ()=>app.onLoads.every(onLoad=>onLoad());
     routes.map(
         ({name, route})=>{
             try{
                 const loaded_module = require(route);
                 if(loaded_module.middleware){
                     app.use(`/${name}`, loaded_module.middleware);
+                    if(loaded_module.middleware.onLoad){
+                        app.onLoads=[...app.onLoads, loaded_module.middleware.onLoad];
+                    }
                 }
             }
             catch(error){
