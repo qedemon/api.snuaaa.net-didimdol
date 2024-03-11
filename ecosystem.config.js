@@ -13,18 +13,6 @@ module.exports = {
         env: {
           "NODE_PATH": `${__dirname}`
         }
-      },
-      {
-        name: 'nova_api_load_sheets', // 애플리케이션 이름
-        cwd: `${__dirname}`,
-        script: 'loadSheetsRepeat.js', // 실행될 스크립트 파일
-        autorestart: true, // 애플리케이션 비정상 종료 시 자동으로 재시작
-        watch: true, // 파일 변경 감지 시 애플리케이션 자동 재시작 (개발 환경에서 유용)
-        ignore_watch: ``,
-        max_memory_restart: '1G', // 메모리 한도를 넘어설 경우 애플리케이션 자동 재시작
-        env: {
-          "NODE_PATH": `${__dirname}`
-        }
       }
     ],
   };
