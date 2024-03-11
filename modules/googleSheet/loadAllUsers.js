@@ -1,4 +1,5 @@
 const {getAllUsers} = require("modules/user/core");
+const {getNow} = require("modules/time/core");
 
 async function loadAllUsers(sheetId, sheet){
     try{
@@ -72,6 +73,7 @@ async function loadAllUsers(sheetId, sheet){
                         valueInputOption: "USER_ENTERED",
                         resource: {
                             values: [
+                                ["수정 시각", getNow().toLocaleString('ko-KR', {timeZone: 'Asia/Seoul'})],
                                 labels,
                                 ...(target??[]).map(
                                     (data)=>values.map(
