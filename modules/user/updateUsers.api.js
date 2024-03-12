@@ -19,11 +19,17 @@ function attachUpdateUsers(app){
                     ({id})=>id===authorization?.userInfo?.id
                 );
             
-            const updated = await updateUsers(targetUsers);
+            const {updated, error} = await updateUsers(targetUsers);
+            if(error){
+                throw error;
+            }
             
             res.json(
                 {
-                    updated
+                    result: Result.success,
+                    updated: {
+                        updated
+                    }
                 }
             )
         }
