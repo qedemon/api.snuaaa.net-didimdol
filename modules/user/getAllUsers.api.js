@@ -26,7 +26,11 @@ function attachGetAllUsers(app){
     app.get("/getAllUsers", (req, res)=>{
         res.redirect(302, "getAllUsers/students");
     });
-    app.get("/getAllUsers/:target", async (req, res)=>{
+    app.get("/getAllUsers/:target", (req, res)=>{
+        const {target} = req.params;
+        res.redirect(302, `${target}/false`)
+    })
+    app.get("/getAllUsers/:target/:requirePopulate", async (req, res)=>{
         try{
             if(!req.authorization?.userInfo?.isAdmin){
                 throw new Error("permission error");
@@ -39,7 +43,8 @@ function attachGetAllUsers(app){
                     return filters[target]?[target, filters[target]]:["all", filters.all];
                 }
             )(req.params.target);
-            const {users, error} = await getAllUsers(filter, ["-password", "-_id"]);
+            const requirePopulate = req.params.requirePopulate==="true";
+            const {users, error} = await getAllUsers(filter, ["-password", "-_id"], requirePopulate?["didimdolClass.belongs", "didimdolClass.wants"]:[]);
             if(error){
                 throw error;
             }
