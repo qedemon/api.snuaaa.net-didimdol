@@ -9,9 +9,9 @@ const expiresIn = process.argv[3];
     async (id, expiresIn)=>{
         await connect();
         try{
-            const user = await getUser({id});
-            if(!user){
-                throw new Error("no user");
+            const {user, error} = await getUser({id});
+            if(error){
+                throw error;
             }
             const token = expiresIn?createToken(user, expiresIn):createToken(user);
             console.log(`token: ${token}`);
