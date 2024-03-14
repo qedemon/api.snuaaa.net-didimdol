@@ -46,6 +46,10 @@ const UserSchema = new mongoose.Schema(
             default: false
         },
         profilePath: String,
+        freeze: {
+            type: Boolean,
+            default: false
+        },
         push: PushSchema
     },
     {
