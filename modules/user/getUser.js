@@ -4,7 +4,7 @@ const {User} = require("models");
 async function getUser(filter){
     try{
         await connect();
-        const user = await User.findOne(filter).populate("attendances");
+        const user = await User.findOne(filter).populate("attendances").populate("didimdolClass.belongs");
         if(!user){
             throw new Error("no user");
         }

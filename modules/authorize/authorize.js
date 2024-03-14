@@ -1,5 +1,5 @@
 require("dotenv").config();
-const {updateUser} = require("../user/core");
+const {updateUser, getUser} = require("../user/core");
 const localAuthorize = require("./localAuthorize");
 const remoteAuthorize = require("./remoteAuthorize");
 
@@ -30,11 +30,20 @@ async function authorize(token){
             if(!result){
                 throw new Error("authorization Failed");
             }
-            const {user, error} = await updateUser(result.user, true);
-            if(error){
-                console.log(error);
-                throw error;
-            }
+            const user = await (
+                async (user)=>{
+                    const {user: updatedUser, error: updateError} = await updateUser(user, true);
+                    if(updateError){
+                        throw updateError;
+                    }
+                    const {user: me, error} = await getUser({id: updatedUser.id});
+                    if(error){
+                        throw error;
+                    }
+                    return me;
+                }
+            )(result.user); 
+
             return {
                 authorized: true,
                 userInfo: user,

@@ -65,7 +65,7 @@ function attahchNotification(app){
 }
 
 attahchNotification.onLoad = async ()=>{
-    try{
+    /*try{
         const drive = await (
             async ()=>{
                 const {drive, error} = await googleAuthorize();
@@ -90,7 +90,7 @@ attahchNotification.onLoad = async ()=>{
     catch(error){
         console.log(error);
         return false;
-    }
+    }*/
 }
 
 module.exports = attahchNotification;

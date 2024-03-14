@@ -1,5 +1,6 @@
 const express = require("express");
 const attachAllDidimdolClasses = require("./allDidimdolClasses.api");
+const attachUpdateDidimdolClasses = require("./updateDidimdolClasses.api")
 
 const app = express();
 app.get("/", (req, res)=>{
@@ -10,6 +11,7 @@ app.get("/", (req, res)=>{
     )
 })
 attachAllDidimdolClasses(app);
+attachUpdateDidimdolClasses(app);
 
 app.onLoad = ()=>{
     console.log("didimdolClass module loaded...");

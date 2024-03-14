@@ -1,26 +1,31 @@
 const express = require("express");
 const authorize = require("modules/authorize/middleware");
 const {Result} = require("Utility");
-const {emptyFunction} = require("./core");
+const {updateDidimdolClasses} = require("./core");
 
-function attachPost(app){
-    const apiPath = "/post";
+function attachUpdateDidimdolClasses(app){
+    const apiPath = "/updateDidimdolClasses";
     app.use(apiPath, authorize);
     app.use(apiPath, express.json());
     app.post(apiPath, async (req, res)=>{
         try{
-            const {time, error} = await emptyFunction();
+            if(!req.authorization?.userInfo?.isAdmin){
+                throw new Error("permission error");
+            }
+            const updates = req.body;
+            const {didimdolClasses, error} = await updateDidimdolClasses(updates);
+            console.log(didimdolClasses)
             if(error){
                 throw error
             }
             res.json(
                 {
-                    result: Result.success,
-                    time
+                    result: Result.success
                 }
             );
         }
         catch(error){
+            console.log(error);
             res.json( 
                 {
                     result: Result.fail,
@@ -31,4 +36,4 @@ function attachPost(app){
     })
 }
 
-module.exports = attachPost;
+module.exports = attachUpdateDidimdolClasses;
