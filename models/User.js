@@ -54,12 +54,13 @@ const UserSchema = new mongoose.Schema(
         versionKey : false 
     }
 )
-UserSchema.virtual("attendances",
+UserSchema.virtual("QRAuthenticationLogs",
     {
         ref: "QRAuthenticationLog",
         localField: "id",
-        foreignField: "id"
-    }
+        foreignField: "id",
+        
+    },
 );
 UserSchema.virtual("didimdolClass.belongs",
     {
