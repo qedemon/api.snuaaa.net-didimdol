@@ -59,7 +59,8 @@ async function authenticate(id, password, isStaff){
         return {authenticated:true, userInfo: updated, token, origin};
     }
     catch(error){
-        return {authenticated:false, error};
+        console.log(error);
+        return {authenticated:false, error:error.message};
     }
 }
 
