@@ -3,7 +3,7 @@ const {getNow} = require("modules/time/core");
 const {QRAuthentication} = require("models");
 const catalogue = require("./catalogue");
 
-async function acquireQRAuthentication(author, type, at=getNow()){
+async function acquireQRAuthentication(author, type, options={}, at=getNow()){
     try{
         const item = catalogue[type];
         if(!item){
@@ -11,7 +11,7 @@ async function acquireQRAuthentication(author, type, at=getNow()){
         }
         await connect();
         const authentication = await (
-            async (type, item, author, at)=>{
+            async (type, item, author, at, options)=>{
                 const found = await QRAuthentication.findOne(
                     {
                         authorId: author.id,
@@ -21,7 +21,10 @@ async function acquireQRAuthentication(author, type, at=getNow()){
                         },
                         expiredAt: {
                             $gt: new Date(at.getTime()+item.span/2)
-                        }
+                        },
+                        ...(typeof(item.filter)==="function")?
+                            item.filter(at, options):
+                            item.filter??{}
                     }
                 );
                 if(found)
@@ -32,11 +35,11 @@ async function acquireQRAuthentication(author, type, at=getNow()){
                         authorId: author.id,
                         createdAt: at,
                         expiredAt: new Date(at.getTime()+item.span),
-                        context: item.context(at)
+                        context: item.context(at, options)
                     }
                 );
             }
-        )(type, item, author, at);
+        )(type, item, author, at, options);
 
         return {
             qrAuthentication: authentication.toObject(),

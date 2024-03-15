@@ -15,8 +15,17 @@ async function postData(postPath, data){
         referrerPolicy: "no-referrer",
         body: JSON.stringify(data)
     };
-    const res = await fetch("http://"+path.join(`localhost:${process.env.SYNC_SERVER_PORT}`, postPath), options);
-    return await res.json();
+    try{
+        const res = await fetch("http://"+path.join(`localhost:${process.env.SYNC_SERVER_PORT}`, postPath), options);
+        return {
+            result: await res.json()
+        };
+    }
+    catch(error){
+        return {
+            error
+        }
+    }
 }
 
 const sync = {

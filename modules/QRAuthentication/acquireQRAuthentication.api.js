@@ -7,11 +7,12 @@ function attachAcquireQRAuthentication(app){
     app.get("/acquireQRAuthentication/:type", async (req, res)=>{
         const {authorization} = req;
         const {type} = req.params;
+        const options = req.query;
         try{
             if(!authorization?.userInfo?.isStaff){
                 throw new Error("permission denied");
             };
-            const {qrAuthentication, error} = await acquireQRAuthentication(authorization.userInfo, type);
+            const {qrAuthentication, error} = await acquireQRAuthentication(authorization.userInfo, type, options);
             if(error){
                 throw error;
             }
