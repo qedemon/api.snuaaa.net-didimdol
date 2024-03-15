@@ -16,7 +16,7 @@ async function loadAllQRAuthentications(sheetId, sheet){
 
         const authentications = await (
             async ()=>{
-                const {authentications, error} = await getAllAuthentications(["별모임", "소관", "자율돔관"]);
+                const {authentications, error} = await getAllAuthentications(["별모임", "소관", "자율돔관", "etc"]);
                 if(error){
                     throw error;
                 }
