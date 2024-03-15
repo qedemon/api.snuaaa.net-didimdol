@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const {register} = require("./core");
-const {Result, Log} = require("Utility");
+const {Result, Log, sync} = require("Utility");
 const googleAuthorize = require("modules/googleSheet/midlayer");
 const {loadAllUsers} = require("modules/googleSheet/core");
 
@@ -16,6 +16,7 @@ function attachRegister(app){
                 throw error;
             }
             Log({message: "success", registered});
+            await sync.push({from: "regitser", user: registered});
             res.json(
                 {
                     result: Result.success,
@@ -23,14 +24,9 @@ function attachRegister(app){
                     token
                 }
             );
-            try{
-                await loadAllUsers(process.env.GOOGLE_SHEET_ID, req.googleAuthorization?.sheet);
-            }
-            catch(error){
-                console.log(error);
-            }
         }
         catch(error){
+            console.log(error)
             Log({userInfo, error:error.message});
             res.json(
                 {

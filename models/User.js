@@ -87,11 +87,42 @@ UserSchema.virtual("attendant.logs").get(
         return logs;
     }
 )
-UserSchema.virtual("didimdolClass.belongs",
+UserSchema.virtual("didimdolClass.isStudentIn", 
     {
         ref: "DidimdolClass",
         localField: "id",
         foreignField: "studentIds"
+    }
+);
+UserSchema.virtual("didimdolClass.isAssistantIn", 
+    {
+        ref: "DidimdolClass",
+        localField: "id",
+        foreignField: "assistantIds"
+    }
+);
+UserSchema.virtual("didimdolClass.isLecturerIn",
+    {
+        ref: "DidimdolClass",
+        localField: "id",
+        foreignField: "lecturerId"
+    }
+)
+UserSchema.virtual("didimdolClass.belongs").get(
+    function(){
+        return [
+                    {key: "isStudentIn", role: "student"},
+                    {key:"isAssistantIn", role: "assistant"},
+                    {key: "isLecturerIn", role: "lecturer"}
+            ].reduce(
+            (result, {key, role})=>{
+                return this.didimdolClass[key]?[
+                    ...result,
+                    ...this.didimdolClass[key].map(didimdolClass=>({role, didimdolClass}))
+                ]:[];
+            },
+            []
+        )
     }
 );
 

@@ -6,6 +6,7 @@ const request = require("./remoteConnection");
 const createToken = require("./createToken");
 const Log = require("./Log");
 const sendEmail = require("./sendEmail");
+const sync = require("./sync");
 
 module.exports= {
     Result,
@@ -15,5 +16,6 @@ module.exports= {
     request,
     createToken,
     Log,
-    sendEmail
+    sendEmail,
+    sync
 }
