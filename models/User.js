@@ -50,6 +50,9 @@ const UserSchema = new mongoose.Schema(
             type: Boolean,
             default: false
         },
+        attendant: {
+            info: mongoose.Schema.Types.Mixed,
+        },
         push: PushSchema
     },
     {
@@ -63,9 +66,27 @@ UserSchema.virtual("QRAuthenticationLogs",
         ref: "QRAuthenticationLog",
         localField: "id",
         foreignField: "id",
-        
     },
 );
+UserSchema.virtual("attendant.logs").get(
+    function (){
+        const logs = (this.QRAuthenticationLogs??[]).filter(({authentication})=>authentication).reduce(
+            (result, {authentication, authenticatedAt, message})=>{
+                return {
+                    ...result,
+                    [authentication?.context?.title??"unnamed"]:{
+                        type: authentication?.type,
+                        authorId: authentication?.authorId,
+                        authenticatedAt,
+                        message
+                    }
+                }
+            },
+            {}
+        )
+        return logs;
+    }
+)
 UserSchema.virtual("didimdolClass.belongs",
     {
         ref: "DidimdolClass",

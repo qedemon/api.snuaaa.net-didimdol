@@ -18,24 +18,10 @@ async function getUser(filter){
         return {
             user: (
                 (userInfo)=>{
-                    const {QRAuthenticationLogs, ...remains} = userInfo;
-                    const attendance = QRAuthenticationLogs.filter(({authentication})=>authentication).reduce(
-                        (result, {authentication, authenticatedAt, message})=>{
-                            return {
-                                ...result,
-                                [authentication?.context?.title??"unnamed"]:{
-                                    type: authentication?.type,
-                                    authorId: authentication?.authorId,
-                                    authenticatedAt,
-                                    message
-                                }
-                            }
-                        },
-                        {}
-                    )
-                    return {...remains, attendance};
+                    const {QRAuthenticationLogs, ...remain} = userInfo;
+                    return remain;
                 }
-            )(user.toObject({virtuals: true}))
+            )(user.toObject())
         }
     }
     catch(error){
