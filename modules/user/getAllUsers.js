@@ -5,7 +5,15 @@ async function getAllUsers(filter={}, select=[], populate=["didimdolClass.belong
     try{
         await connect();
         const populations = {
-            "didimdolClass.belongs": (query)=>query.populate("didimdolClass.belongs", ["_id", "title", "lecturerId", "daytime", "-studentIds"]),
+            "didimdolClass.belongs": (query)=>{
+                const populate = [{path: "lecturer", select: ["name", "colNo", "major"]}, {path: "assistants", select: ["name", "colNo", "major"]}];
+                return ["isLecturerIn", "isAssistantIn", "isStudentIn"].reduce(
+                    (query, key)=>{
+                        return query.populate({path: `didimdolClass.${key}`, populate});
+                    },
+                    query
+                )
+            },
             "didimdolClass.wants": (query)=>query.populate("didimdolClass.wants", ["_id", "title", "daytime"])
         }
         const users = (
