@@ -1,17 +1,17 @@
-const {getQRAuthentication} = require("./core");
+const {getQRAuthenticationById} = require("./core");
 const authorize = require("modules/authorize/middleware");
 const {Result} = require("Utility");
 
 function attachGetQRAuthentication(app){
-    app.use("/getQRAuthentication", authorize);
-    app.get("/getQRAuthentication/:authenticationId", async (req, res)=>{
+    app.use("/getQRAuthenticationById", authorize);
+    app.get("/getQRAuthenticationById/:authenticationId", async (req, res)=>{
         const {authorization} = req;
         const {authenticationId} = req.params;
         try{
             if(!authorization?.userInfo){
                 throw new Error("permission denied");
             };
-            const {qrAuthentication, error} = await getQRAuthentication(authenticationId);
+            const {qrAuthentication, error} = await getQRAuthenticationById(authenticationId);
             if(error){
                 throw error;
             }
@@ -23,6 +23,7 @@ function attachGetQRAuthentication(app){
             )
         }
         catch(error){
+            console.log(error);
             res.json(
                 {
                     result: Result.fail,

@@ -3,7 +3,7 @@ const {getNow} = require("modules/time/core");
 const {QRAuthentication, QRAuthenticationLog} = require("models");
 const catalogue = require("./catalogue");
 
-async function getQRAuthentication(authenticationId, at=getNow()){
+async function getQRAuthenticationById(authenticationId, at=getNow()){
     try{
         await connect();
         const qrAuthentication = await QRAuthentication.findById(authenticationId);
@@ -21,4 +21,4 @@ async function getQRAuthentication(authenticationId, at=getNow()){
     }
 }
 
-module.exports = getQRAuthentication;
+module.exports = getQRAuthenticationById;
