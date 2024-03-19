@@ -11,7 +11,7 @@ async function updateUser(userInfo, upsert=false){
                 ...remians
             }:
             remians;
-        const user = await User.findOneAndUpdate({id: userInfo.id}, userInfoWithout_Id, {upsert, new: true, select:["-password"]})
+        const user = await User.findOneAndUpdate({id: userInfo.id}, userInfoWithout_Id, {upsert, new: true, select:["-password"]});
             /*.populate(
                 {
                     path: "attendances",

@@ -14,7 +14,6 @@ function attachUpdateDidimdolClasses(app){
             }
             const updates = req.body;
             const {didimdolClasses, error} = await updateDidimdolClasses(updates);
-            console.log(didimdolClasses)
             if(error){
                 throw error
             }
