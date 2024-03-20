@@ -66,7 +66,29 @@ DidimdolClassSchema.virtual("students", {
     localField: 'studentIds',
     foreignField: "id"
 });
-
+DidimdolClassSchema.virtual("attendant").get(
+    function(){
+        return (this.students??[]).reduce(
+            (result, {attendant})=>{
+                return {
+                    ...result,
+                    ...(
+                        Object.entries(
+                            attendant?.logs??{}
+                        )
+                        .filter(
+                            ([_, {type}])=>type==="디딤돌"
+                        )
+                        .reduce(
+                            (result, [key, {createdAt}])=>({...result, [key]: createdAt}), {}
+                        )
+                    )
+                }
+            },
+            {}
+        );
+    }
+)
 
 const DidimdolClass = mongoose.model("DidimdolClass", DidimdolClassSchema);
 

@@ -76,6 +76,7 @@ UserSchema.virtual("attendant.logs").get(
                     ...result,
                     [authentication?.context?.title??"unnamed"]:{
                         type: authentication?.type,
+                        createdAt: authentication?.createdAt,
                         authorId: authentication?.authorId,
                         authenticatedAt,
                         message
@@ -111,10 +112,11 @@ UserSchema.virtual("didimdolClass.isLecturerIn",
 UserSchema.virtual("didimdolClass.belongs").get(
     function(){
         return [
-                    {key: "isStudentIn", role: "student"},
-                    {key:"isAssistantIn", role: "assistant"},
-                    {key: "isLecturerIn", role: "lecturer"}
-            ].reduce(
+            {key: "isStudentIn", role: "student"},
+            {key:"isAssistantIn", role: "assistant"},
+            {key: "isLecturerIn", role: "lecturer"}
+        ]
+        .reduce(
             (result, {key, role})=>{
                 return this.didimdolClass[key]?[
                     ...result,
@@ -123,6 +125,7 @@ UserSchema.virtual("didimdolClass.belongs").get(
             },
             []
         )
+        .filter(({didimdolClass:{hide}})=>!hide)
     }
 );
 
