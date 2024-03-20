@@ -33,7 +33,6 @@ async function getQRImage(author, authenticationId, at=getNow(), frontendHost=pr
             dataURL: await new Promise(
                 (resolve, reject)=>{
                     QRCode.toDataURL(targetURL, (error, url)=>{
-                        console.log(targetURL);
                         if(error){
                             reject(error);
                         }
