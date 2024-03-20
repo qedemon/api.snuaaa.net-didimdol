@@ -1,10 +1,11 @@
 const {getAllUsers} = require("modules/user/core");
+const {getNow} = require("modules/time/core");
 
 async function loadAllUsers(sheetId, sheet){
     try{
         const students = await (
             async ()=>{
-                const {users, error} = await getAllUsers({isStudent: true}, [], ["didimdolClass.wants"]);
+                const {users, error} = await getAllUsers({isStudent: true}, [], ["didimdolClass.wants", "didimdolClass.belongs"]);
                 if(error){
                     throw error;
                 }
@@ -30,16 +31,26 @@ async function loadAllUsers(sheetId, sheet){
             }
         )();
 
+        console.log(JSON.stringify(students.map(({didimdolClass})=>didimdolClass.belongs), null, "\t"));
+
         const updationgs = [
             {
                 range: "가입자",
                 target: students,
-                labels: ["가입번호", "아이디", "이름", "전화번호", "이메일", "과정", "입학년도", "전공", "가입비 납부", "입금자명", "가입날짜", "신환회 참석", "1지망", "2지망", "3지망"],
-                values: ["aaaNo", "id", "name", "mobile", "email", "course", "schoolNo", "major", ({paid})=>paid?"O":"X", "depositor",
+                labels: ["가입번호", "아이디", "이름", "전화번호", "이메일", "과정", "입학년도", "전공", "가입비 납부", "freeze", "입금자명", "가입날짜", "신환회 참석", "1지망", "2지망", "3지망", "소속"],
+                values: ["aaaNo", "id", "name", "mobile", "email", "course", "schoolNo", "major", ({paid})=>paid?true:false, 
+                    ({freeze})=>freeze?true:false,
+                    "depositor",
                     ({createdAt})=>createdAt.toLocaleString('ko-KR', {timeZone: 'Asia/Seoul'}),
                     ({didimdolClass: {party}})=>party?"O":(party===false)?"X":"?",
                     ...Array.from({length: 3}).map(
-                        (_, index)=>({didimdolClass: {wants}})=>Array.isArray(wants)&&wants[index]?`${wants[index].title}조 (${wants[index].daytime.day} ${wants[index].daytime.start}~${wants[index].daytime.end})`:"")
+                        (_, index)=>({didimdolClass: {wants}})=>Array.isArray(wants)&&wants[index]?`${wants[index].title}조 (${wants[index].daytime.day} ${wants[index].daytime.start}~${wants[index].daytime.end})`:""),
+                    ({didimdolClass: {belongs}})=>{
+                        const belong = belongs.filter(({role})=>role==="student")[0];
+                        return belong?
+                            `${belong.didimdolClass.title}조 ${belong.didimdolClass.daytime.day} ${belong.didimdolClass.daytime.start}`:
+                            "";
+                    }
                 ]
             },
             {
@@ -72,6 +83,7 @@ async function loadAllUsers(sheetId, sheet){
                         valueInputOption: "USER_ENTERED",
                         resource: {
                             values: [
+                                ["수정 시각", getNow().toLocaleString('ko-KR', {timeZone: 'Asia/Seoul'})],
                                 labels,
                                 ...(target??[]).map(
                                     (data)=>values.map(

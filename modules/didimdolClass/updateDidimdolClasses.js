@@ -5,11 +5,12 @@ const {DidimdolClass} = require("models");
 async function updateDidimdolClasses(data){
     try{
         await connect();
+        await DidimdolClass.updateMany({}, {hide: true});
         const didimdolClasses = await Promise.all(
             data.map(
                 async(classData)=>{
                     const {title} = classData;
-                    return await DidimdolClass.findOneAndUpdate({title}, classData, {new: true, upsert: true});
+                    return await DidimdolClass.findOneAndUpdate({title}, {...classData, hide: false}, {new: true, upsert: true});
                 }
             )
         )

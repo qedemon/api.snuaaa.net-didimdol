@@ -11,8 +11,8 @@
     "stop": "pm2 stop ecosystem.config.js",
     "send": "NODE_PATH=. node sendEmail.js",
     "oauth": "NODE_PATH=. node oauth.js",
-    "loadSheets": "NODE_PATH=. node loadSheetsRepeat.js",
-    "watchGoogleDrive": "NODE_PATH=. node watchGoogleDrive.js"
+    "jwt": "NODE_PATH=. node createJWT.js",
+    "sync": "NODE_PATH=. nodemon syncServer/server.js"
   },
   "keywords": [],
   "author": "",

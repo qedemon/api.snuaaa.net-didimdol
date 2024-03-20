@@ -6,7 +6,7 @@ const {User} = require("models");
 async function getUserBy_id(userId){
     try{
         await connect();
-        const user = await User.findById(userId, ["-password"]).populate("attendances");
+        const user = await User.findById(userId, ["-password"]);
         return {
             user: user.toObject({virtuals: true})
         }

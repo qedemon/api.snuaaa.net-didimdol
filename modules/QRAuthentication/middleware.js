@@ -2,7 +2,7 @@ const express = require("express");
 const attachAcquireQRAuthentication = require("./acquireQRAuthentication.api");
 const attachLogQRAuthentication = require("./logQRAuthentication.api");
 const attachGetQRImage = require("./getQRImage.api");
-const attachGetQRAuthentication = require("./getQRAuthentication.api")
+const attachGetQRAuthenticationById = require("./getQRAuthenticationById.api")
 
 const app = express();
 app.get("/", (req, res)=>{
@@ -16,6 +16,11 @@ attachAcquireQRAuthentication(app);
 attachLogQRAuthentication(app);
 attachGetQRImage(app);
 attachLogQRAuthentication(app);
-attachGetQRAuthentication(app);
+attachGetQRAuthenticationById(app);
+
+app.onLoad = ()=>{
+    console.log("QRAuthentication module loaded.");
+    return true;
+}
 
 module.exports = app;

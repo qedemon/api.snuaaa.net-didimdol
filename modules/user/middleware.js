@@ -18,4 +18,9 @@ attachUpdateUsers(app);
 attachFindId(app);
 attachResetPassword(app);
 
+app.onLoad = ()=>{
+    console.log("user module loaded.");
+    return true;
+}
+
 module.exports = app;

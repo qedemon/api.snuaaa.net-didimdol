@@ -1,6 +1,6 @@
 const express = require("express");
 const authorize = require("modules/authorize/middleware");
-const {Result, Log} = require("Utility");
+const {Result, Log, sync} = require("Utility");
 const {updateUsers} = require("./core");
 const googleAuthorize = require("modules/googleSheet/midlayer");
 const {loadAllUsers} = require("modules/googleSheet/core");
@@ -19,11 +19,17 @@ function attachUpdateUsers(app){
                     ({id})=>id===authorization?.userInfo?.id
                 );
             
-            const updated = await updateUsers(targetUsers);
-            
+            const {updated, error} = await updateUsers(targetUsers);
+            if(error){
+                throw error;
+            }
+            await sync.push({from: "updateUsers", updated});
             res.json(
                 {
-                    updated
+                    result: Result.success,
+                    updated: {
+                        updated
+                    }
                 }
             )
         }
@@ -34,12 +40,6 @@ function attachUpdateUsers(app){
                     error: error.message
                 }
             );
-        }
-        try{
-            await loadAllUsers(process.env.GOOGLE_SHEET_ID, req.googleAuthorization?.sheet);
-        }
-        catch(error){
-            console.log(error);
         }
     });
     return app;

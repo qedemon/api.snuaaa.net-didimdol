@@ -5,7 +5,15 @@ async function getAllUsers(filter={}, select=[], populate=["didimdolClass.belong
     try{
         await connect();
         const populations = {
-            "didimdolClass.belongs": (query)=>query.populate("didimdolClass.belongs", ["_id", "title", "lecturerId", "daytime", "-studentIds"]),
+            "didimdolClass.belongs": (query)=>{
+                const populate = [{path: "lecturer", select: ["name", "colNo", "major"]}, {path: "assistants", select: ["name", "colNo", "major"]}];
+                return ["isLecturerIn", "isAssistantIn", "isStudentIn"].reduce(
+                    (query, key)=>{
+                        return query.populate({path: `didimdolClass.${key}`, populate});
+                    },
+                    query
+                )
+            },
             "didimdolClass.wants": (query)=>query.populate("didimdolClass.wants", ["_id", "title", "daytime"])
         }
         const users = (
@@ -17,13 +25,28 @@ async function getAllUsers(filter={}, select=[], populate=["didimdolClass.belong
                     query
                 )
             )(User.find(filter).select(select))
-        ).sort(({aaaNo: A}, {aaaNo: B})=>{
+        ).sort((A, B)=>{
             const extract = (aaaNo)=>aaaNo?parseInt(aaaNo.match(/\d+$/)[0]):-1;
-            return extract(B)-extract(A);
+            if(A.createdAt>B.createdAt){
+                return -1
+            }
+            else if(A.createdAt<B.createdAt){
+                return 1;
+            }
+            else
+                return extract(B.aaaNo)-extract(A.aaaNo);
         });
 
         return {
-            users: (users??[]).map((user)=>user.toObject({virtuals: true}))
+            users: (users??[]).map(
+                (user)=>{
+                    const {didimdolClass, ...remain} = user.toObject({virtuals: true});
+                    delete didimdolClass.isStudentIn;
+                    delete didimdolClass.isLecturerIn;
+                    delete didimdolClass.isAssistantIn;
+                    return {didimdolClass, ...remain};
+                }
+            )
         }
     }
     catch(error){

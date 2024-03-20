@@ -18,9 +18,13 @@ const SheetDocuments = {
 function attachLoad(app){
     app.use("/load", midlayer);
     app.use("/load", authorize);
-    app.get("/load/:key", async (req, res)=>{
+    app.get("/load/:key", (req, res)=>{
+        const {key} = req.params;
+        res.redirect(302, `${key}/${SheetDocuments[key].sheetId}`)
+    });
+    app.get("/load/:key/:sheetId", async (req, res)=>{
         try{
-            const {key} = req.params;
+            const {key, sheetId} = req.params;
             const {authorization, googleAuthorization} = req;
             if(!authorization?.userInfo?.isAdmin){
                 throw new Error(`permission denied`);
@@ -29,7 +33,7 @@ function attachLoad(app){
             if(!targetDocument){
                 throw new Error(`invalid target ${key}`);
             }
-            const {url, error} = await targetDocument.load(targetDocument.sheetId, googleAuthorization?.sheet);
+            const {url, error} = await targetDocument.load(sheetId, googleAuthorization?.sheet);
             if(error){
                 throw error;
             }

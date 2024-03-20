@@ -46,6 +46,13 @@ const UserSchema = new mongoose.Schema(
             default: false
         },
         profilePath: String,
+        freeze: {
+            type: Boolean,
+            default: false
+        },
+        attendant: {
+            info: mongoose.Schema.Types.Mixed,
+        },
         push: PushSchema
     },
     {
@@ -54,18 +61,68 @@ const UserSchema = new mongoose.Schema(
         versionKey : false 
     }
 )
-UserSchema.virtual("attendances",
+UserSchema.virtual("QRAuthenticationLogs",
     {
         ref: "QRAuthenticationLog",
         localField: "id",
-        foreignField: "id"
-    }
+        foreignField: "id",
+    },
 );
-UserSchema.virtual("didimdolClass.belongs",
+UserSchema.virtual("attendant.logs").get(
+    function (){
+        const logs = (this.QRAuthenticationLogs??[]).filter(({authentication})=>authentication).reduce(
+            (result, {authentication, authenticatedAt, message})=>{
+                return {
+                    ...result,
+                    [authentication?.context?.title??"unnamed"]:{
+                        type: authentication?.type,
+                        authorId: authentication?.authorId,
+                        authenticatedAt,
+                        message
+                    }
+                }
+            },
+            {}
+        )
+        return logs;
+    }
+)
+UserSchema.virtual("didimdolClass.isStudentIn", 
     {
         ref: "DidimdolClass",
         localField: "id",
         foreignField: "studentIds"
+    }
+);
+UserSchema.virtual("didimdolClass.isAssistantIn", 
+    {
+        ref: "DidimdolClass",
+        localField: "id",
+        foreignField: "assistantIds"
+    }
+);
+UserSchema.virtual("didimdolClass.isLecturerIn",
+    {
+        ref: "DidimdolClass",
+        localField: "id",
+        foreignField: "lecturerId"
+    }
+)
+UserSchema.virtual("didimdolClass.belongs").get(
+    function(){
+        return [
+                    {key: "isStudentIn", role: "student"},
+                    {key:"isAssistantIn", role: "assistant"},
+                    {key: "isLecturerIn", role: "lecturer"}
+            ].reduce(
+            (result, {key, role})=>{
+                return this.didimdolClass[key]?[
+                    ...result,
+                    ...this.didimdolClass[key].map(didimdolClass=>({role, didimdolClass}))
+                ]:[];
+            },
+            []
+        )
     }
 );
 

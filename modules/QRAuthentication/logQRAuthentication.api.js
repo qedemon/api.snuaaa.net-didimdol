@@ -1,9 +1,8 @@
 const express = require("express");
 const {logQRAuthentication} = require("./core");
 const authorize = require("modules/authorize/middleware");
-const {Result, Log} = require("Utility");
+const {Result, Log, sync} = require("Utility");
 const googleAuthorize = require("modules/googleSheet/midlayer");
-const {loadAllQRAuthentications} = require("modules/googleSheet/core");
 
 function attachLogQRAuthentication(app){
     app.use("/logQRAuthentication", authorize);
@@ -20,6 +19,7 @@ function attachLogQRAuthentication(app){
             if(error){
                 throw error
             }
+            await sync.push({from: "logQRAuthentication", userInfo, qrAuthentication, qrAuthenticationLog});
             res.json(
                 {
                     result: Result.success,
@@ -35,15 +35,6 @@ function attachLogQRAuthentication(app){
                     error: error.message
                 }
             )
-        }
-        try{
-            const {url, error} = await loadAllQRAuthentications(process.env.QR_LOG_GOOGLE_SHEET_ID, req.googleAuthorization?.sheet);
-            if(error){
-                throw error;
-            }
-        }
-        catch(error){
-            Log(error);
         }
     });
     return app;

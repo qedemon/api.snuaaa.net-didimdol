@@ -1,8 +1,8 @@
 const addSheets = require("./addSheets");
 const getSheetTitles = require("./getSheetTitles");
-const {getAllAuthentications} = require("modules/QRAuthentication/core");
+const {getQRAuthentications} = require("modules/QRAuthentication/core");
 
-async function loadAllQRAuthentications(sheetId, sheet){
+async function loadQRAuthentications(sheetId, sheet, filter={}){
     try{
         const sheetTitles = await (
             async (sheetId, sheet)=>{
@@ -16,7 +16,14 @@ async function loadAllQRAuthentications(sheetId, sheet){
 
         const authentications = await (
             async ()=>{
-                const {authentications, error} = await getAllAuthentications(["별모임", "소관", "자율돔관", "etc"]);
+                const {authentications, error} = await getQRAuthentications(
+                    {
+                        type: {
+                            $in: ["별모임", "소관", "자율돔관", "etc"]
+                        },
+                        ...filter
+                    }
+                );
                 if(error){
                     throw error;
                 }
@@ -83,4 +90,4 @@ async function loadAllQRAuthentications(sheetId, sheet){
     }
 }
 
-module.exports = loadAllQRAuthentications;
+module.exports = loadQRAuthentications;

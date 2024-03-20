@@ -2,12 +2,14 @@ const acquireQRAuthentication = require("./acquireQRAuthentication");
 const logQRAuthentication = require("./logQRAuthentication");
 const getQRImage = require("./getQRImage");
 const getAllAuthentications = require("./getAllAuthentications");
-const getQRAuthentication = require("./getQRAuthentication");
+const getQRAuthenticationById = require("./getQRAuthenticationById");
+const getQRAuthentications = require("./getQRAuthentications");
 
 module.exports = {
     acquireQRAuthentication,
     logQRAuthentication,
     getQRImage,
     getAllAuthentications,
-    getQRAuthentication
+    getQRAuthenticationById,
+    getQRAuthentications
 }

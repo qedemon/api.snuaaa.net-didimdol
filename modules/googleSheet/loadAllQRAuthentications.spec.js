@@ -9,4 +9,4 @@ test("loadAllQRAuthentications", async ()=>{
         throw error;
     }
     console.log(url);
-})
+}, 10000)
