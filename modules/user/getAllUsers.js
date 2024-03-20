@@ -38,7 +38,15 @@ async function getAllUsers(filter={}, select=[], populate=["didimdolClass.belong
         });
 
         return {
-            users: (users??[]).map((user)=>user.toObject({virtuals: true}))
+            users: (users??[]).map(
+                (user)=>{
+                    const {didimdolClass, ...remain} = user.toObject({virtuals: true});
+                    delete didimdolClass.isStudentIn;
+                    delete didimdolClass.isLecturerIn;
+                    delete didimdolClass.isAssistantIn;
+                    return {didimdolClass, ...remain};
+                }
+            )
         }
     }
     catch(error){
