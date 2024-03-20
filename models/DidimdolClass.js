@@ -42,7 +42,8 @@ const DidimdolClassSchema = new mongoose.Schema(
                 introduction: String
             },
             _id: false
-        }
+        },
+        imgSrc: String
     },
     {
         toJSON: {virtuals: true},
