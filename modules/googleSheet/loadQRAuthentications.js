@@ -16,20 +16,15 @@ async function loadQRAuthentications(sheetId, sheet, filter={}){
 
         const authentications = await (
             async ()=>{
-                const {authentications, error} = await getQRAuthentications(
-                    {
-                        type: {
-                            $in: ["별모임", "소관", "자율돔관", "etc"]
-                        },
-                        ...filter
-                    }
-                );
+                const {authentications, error} = await getQRAuthentications(filter);
                 if(error){
                     throw error;
                 }
                 return authentications;
             }
         )();
+
+        console.log(filter);
 
         const sheetsToAdd = authentications
             .map(({title})=>title)
@@ -84,6 +79,7 @@ async function loadQRAuthentications(sheetId, sheet, filter={}){
         }
     }
     catch(error){
+        console.log(error);
         return {
             error
         }

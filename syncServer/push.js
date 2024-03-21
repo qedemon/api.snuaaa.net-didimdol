@@ -9,7 +9,25 @@ const pushProcesses = {
                 if(error){
                     throw error;
                 }
-                return await loadQRAuthentications(process.env.QR_LOG_GOOGLE_SHEET_ID, sheet, {"context.title": qrAuthentication.context.title})
+                if(["별모임", "소관", "자율돔관", "etc"].includes(qrAuthentication.type)){
+                    return await loadQRAuthentications(process.env.QR_LOG_GOOGLE_SHEET_ID, sheet, 
+                        {
+                            "context.title": qrAuthentication.context.title, 
+                            type:{
+                                $in:["별모임", "소관", "자율돔관", "etc"]
+                            }
+                        }
+                    )
+                }
+                if("디딤돌" === qrAuthentication.type){
+                    return await loadQRAuthentications(process.env.QR_DIDIMDOL_LOG_GOOGLE_SHEET_ID, sheet, 
+                        {
+                            "context.title": qrAuthentication.context.title, 
+                            type: "디딤돌"
+                        }
+                    )
+                }
+                return {};
             }
             catch(error){
                 return error;

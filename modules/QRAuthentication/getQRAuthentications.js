@@ -6,12 +6,7 @@ const catalogue = require("./catalogue");
 async function getQRAuthentications(filter={}){
     try{
         await connect();
-        const authenticationMap = (await QRAuthentication.find(
-            { 
-                type: { '$in': [ '별모임', '소관', '자율돔관', 'etc' ] },
-                ...filter
-            }
-        ).populate("logs"))
+        const authenticationMap = (await QRAuthentication.find(filter).populate("logs"))
         .filter(
             ({logs})=>logs.length
         )
