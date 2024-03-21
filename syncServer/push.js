@@ -20,7 +20,12 @@ const pushProcesses = {
                     )
                 }
                 if("디딤돌" === qrAuthentication.type){
-                    return await loadQRAuthentications(process.env.QR_DIDIMDOL_LOG_GOOGLE_SHEET_ID, sheet, {type: "디딤돌"})
+                    return await loadQRAuthentications(process.env.QR_DIDIMDOL_LOG_GOOGLE_SHEET_ID, sheet, 
+                        {
+                            "context.title": qrAuthentication.context.title, 
+                            type: "디딤돌"
+                        }
+                    )
                 }
                 return {};
             }
