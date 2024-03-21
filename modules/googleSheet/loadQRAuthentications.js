@@ -24,8 +24,6 @@ async function loadQRAuthentications(sheetId, sheet, filter={}){
             }
         )();
 
-        console.log(filter);
-
         const sheetsToAdd = authentications
             .map(({title})=>title)
             .filter((title)=>!sheetTitles.includes(title));
@@ -42,9 +40,9 @@ async function loadQRAuthentications(sheetId, sheet, filter={}){
                             valueInputOption: "USER_ENTERED",
                             resource: {
                                 values: [
-                                    ["가입번호", "아이디", "이름", "전공", "학번"],
+                                    ["가입번호", "아이디", "이름", "전공", "학번", "시각", "QR생성자"],
                                     ...users.map(
-                                        ({aaaNo, id, name, major, colNo})=>[aaaNo, id, name, major, colNo]
+                                        ({aaaNo, id, name, major, colNo, authenticatedAt, authorId})=>[aaaNo, id, name, major, colNo, authenticatedAt.toLocaleString('ko-KR', {timeZone: 'Asia/Seoul'}), authorId]
                                     )
                                 ]
                             }
