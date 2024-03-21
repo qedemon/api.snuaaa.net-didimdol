@@ -20,7 +20,7 @@ async function getQRAuthentications(filter={}){
                             const logs = result.get(title)??new Map();
                             authentication.logs.forEach(
                                 (log)=>{
-                                    logs.set(log.id, log);
+                                    logs.set(log.id, {log, authentication});
                                 }
                             )
                             return logs;
@@ -40,9 +40,9 @@ async function getQRAuthentications(filter={}){
                         users: (
                             await Promise.all(
                                 Array.from(logs.values()).map(
-                                    async (log)=>{
+                                    async ({log, authentication})=>{
                                         await log.populate("user", ["id", "name", "colNo", "major", "aaaNo"]);
-                                        return log.user[0]?({...log.user[0].toObject(), authenticatedAt: log.authenticatedAt}):null;
+                                        return log.user[0]?({...log.user[0].toObject(), authenticatedAt: log.authenticatedAt, authorId: authentication.authorId}):null;
                                     }
                                 )
                             )
