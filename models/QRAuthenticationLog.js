@@ -15,12 +15,17 @@ const QRAuthenticationLogSchema = new mongoose.Schema(
             type: Date,
             default: ()=>getNow()
         },
-        message: String
+        message: String,
+        deleted: {
+            type: Boolean,
+            default: false
+        }
     },
     {
         versionKey : false 
     }
 );
+
 QRAuthenticationLogSchema.virtual("user",
     {
         ref: "User",

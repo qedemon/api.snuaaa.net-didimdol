@@ -66,6 +66,7 @@ UserSchema.virtual("QRAuthenticationLogs",
         ref: "QRAuthenticationLog",
         localField: "id",
         foreignField: "id",
+        match: {deleted: {$ne: true}}
     },
 );
 UserSchema.virtual("attendant.logs").get(

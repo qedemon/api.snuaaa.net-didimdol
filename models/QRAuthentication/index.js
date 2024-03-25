@@ -42,7 +42,8 @@ QRAuthenticationSchema.virtual("logs",
     {
         ref: "QRAuthenticationLog",
         localField: "_id",
-        foreignField: "authentication"
+        foreignField: "authentication",
+        match: {deleted: {$ne: true}}
     }
 );
 
