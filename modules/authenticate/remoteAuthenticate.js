@@ -6,7 +6,7 @@ async function remoteAuthenticate(id, password){
     try{
         const token = await (
             async(id, password)=>{
-                const loginInfo = await request.post("api/auth/login/", {id, password});
+                const loginInfo = await request.post("api/auth/login/", {id, password, autoLogin: true});
                 const {sucess, token, message} = loginInfo;
                 if(!sucess){
                     throw new Error(message);
