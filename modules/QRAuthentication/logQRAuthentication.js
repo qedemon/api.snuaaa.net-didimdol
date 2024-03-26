@@ -17,6 +17,7 @@ async function logQRAuthentication(authenticationId, user, at=getNow()){
             {
                 authentication: authenticationId,
                 id: user.id,
+                deleted: {$ne: true}
             },
             {
                 authentication: authenticationId,

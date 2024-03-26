@@ -66,6 +66,7 @@ UserSchema.virtual("QRAuthenticationLogs",
         ref: "QRAuthenticationLog",
         localField: "id",
         foreignField: "id",
+        match: {deleted: {$ne: true}}
     },
 );
 UserSchema.virtual("attendant.logs").get(
@@ -92,21 +93,24 @@ UserSchema.virtual("didimdolClass.isStudentIn",
     {
         ref: "DidimdolClass",
         localField: "id",
-        foreignField: "studentIds"
+        foreignField: "studentIds",
+        match: { hide: {$ne: true} }
     }
 );
 UserSchema.virtual("didimdolClass.isAssistantIn", 
     {
         ref: "DidimdolClass",
         localField: "id",
-        foreignField: "assistantIds"
+        foreignField: "assistantIds",
+        match: { hide: {$ne: true} }
     }
 );
 UserSchema.virtual("didimdolClass.isLecturerIn",
     {
         ref: "DidimdolClass",
         localField: "id",
-        foreignField: "lecturerId"
+        foreignField: "lecturerId",
+        match: { hide: {$ne: true} }
     }
 )
 UserSchema.virtual("didimdolClass.belongs").get(

@@ -4,6 +4,7 @@ const getQRImage = require("./getQRImage");
 const getAllAuthentications = require("./getAllAuthentications");
 const getQRAuthenticationById = require("./getQRAuthenticationById");
 const getQRAuthentications = require("./getQRAuthentications");
+const deleteQRLogsFromUser = require("./deleteQRLogsFromUser");
 
 module.exports = {
     acquireQRAuthentication,
@@ -11,5 +12,6 @@ module.exports = {
     getQRImage,
     getAllAuthentications,
     getQRAuthenticationById,
-    getQRAuthentications
+    getQRAuthentications,
+    deleteQRLogsFromUser
 }

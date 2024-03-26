@@ -6,7 +6,7 @@ async function getUser(filter){
         await connect();
         const user = await (
             (query)=>{
-                const populate = [{path: "lecturer", select: ["name", "colNo", "major"]}, {path: "assistants", select: ["name", "colNo", "major"]}];
+                const populate = [{path: "lecturer", select: ["name", "colNo", "major"]}, {path: "assistants", select: ["name", "colNo", "major"]}, {path: "students", select: ["name", "colNo", "major"]}];
                 return ["isLecturerIn", "isAssistantIn", "isStudentIn"].reduce(
                     (query, key)=>{
                         return query.populate({path: `didimdolClass.${key}`, populate});
