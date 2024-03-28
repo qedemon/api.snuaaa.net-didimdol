@@ -43,7 +43,8 @@ const DidimdolClassSchema = new mongoose.Schema(
             },
             _id: false
         },
-        imgSrc: String
+        imgSrc: String,
+        backgroundColor: String
     },
     {
         toJSON: {virtuals: true},
