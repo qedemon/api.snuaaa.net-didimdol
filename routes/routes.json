@@ -26,5 +26,9 @@
     {
         "name": "googleSheet",
         "route": "modules/googleSheet"
+    },
+    {
+        "name": "webSocket",
+        "route": "modules/webSocket"
     }
 ]
