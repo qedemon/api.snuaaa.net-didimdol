@@ -35,7 +35,7 @@ async function updateGoogleSheetForAuthenticationLog(qrAuthentication){
 const pushProcesses = {
     "logQRAuthentication": {
         f: async ({qrAuthentication})=>{
-            await updateGoogleSheetForAuthenticationLog(qrAuthentication);
+            return await updateGoogleSheetForAuthenticationLog(qrAuthentication);
         }
     }
 }
