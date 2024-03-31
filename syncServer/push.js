@@ -1,5 +1,6 @@
 require("dotenv").config();
 const {googleAuthorize, loadQRAuthentications} = require("modules/googleSheet/core");
+const broadcastData = require("./WebSocket/broadcastData");
 
 async function updateGoogleSheetForAuthenticationLog(qrAuthentication){
     try{
@@ -35,7 +36,24 @@ async function updateGoogleSheetForAuthenticationLog(qrAuthentication){
 const pushProcesses = {
     "logQRAuthentication": {
         f: async ({qrAuthentication})=>{
-            return await updateGoogleSheetForAuthenticationLog(qrAuthentication);
+            const updated = await updateGoogleSheetForAuthenticationLog(qrAuthentication);
+            broadcastData(
+                {
+                    updated: ["attendant"]
+                }
+            )
+            return updated;
+        }
+    },
+    "addLogQRAuthenticationForUser": {
+        f: async ({qrAuthentication})=>{
+            const updated = await updateGoogleSheetForAuthenticationLog(qrAuthentication);
+            broadcastData(
+                {
+                    updated: ["attendant"]
+                }
+            )
+            return updated;
         }
     }
 }
