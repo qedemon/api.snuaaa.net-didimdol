@@ -15,7 +15,7 @@ function attachWhoAmI(app){
                                     const {password, ...remain} = userInfo;
                                     return remain;
                                 }
-                            )
+                            )(userInfo)
                         }:
                         authorization
                 }
