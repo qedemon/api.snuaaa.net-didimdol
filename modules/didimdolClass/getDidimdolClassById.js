@@ -7,7 +7,7 @@ async function getDidimdolClassById(classId){
         await connect();
         const didimdolClass = await ["lecturer", "assistants", "students"].reduce(
             (result, populate)=>{
-                return result.populate({path: populate, select: ["name", "id", "major", "colNo", "attendant"], populate: {path: "QRAuthenticationLogs", populate: "authentication"}});
+                return result.populate({path: populate, select: ["name", "id", "major", "colNo", "aaaNo", "attendant"], populate: {path: "QRAuthenticationLogs", populate: "authentication"}});
             },
             DidimdolClass.findById(classId)
         );
