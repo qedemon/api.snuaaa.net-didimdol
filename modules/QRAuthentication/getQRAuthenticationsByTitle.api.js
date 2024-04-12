@@ -1,17 +1,17 @@
-const {getQRAuthenticationById} = require("./core");
+const {getQRAuthentications} = require("./core");
 const authorize = require("modules/authorize/middleware");
 const {Result} = require("Utility");
 
-function attachGetQRAuthenticationById(app){
-    app.use("/getQRAuthenticationById", authorize);
-    app.get("/getQRAuthenticationById/:authenticationId", async (req, res)=>{
+function attachGetQRAuthenticationByTitle(app){
+    app.use("/getQRAuthenticationByTitle", authorize);
+    app.get("/getQRAuthenticationByTitle/:title", async (req, res)=>{
         const {authorization} = req;
-        const {authenticationId} = req.params;
+        const {title} = req.params;
         try{
-            if(!authorization?.userInfo){
+            if(!authorization?.userInfo?.isAdmin){
                 throw new Error("permission denied");
             };
-            const {qrAuthentication, error} = await getQRAuthenticationById(authenticationId);
+            const {authentications: qrAuthentication, error} = await getQRAuthentications({"context.title": title});
             if(error){
                 throw error;
             }
@@ -35,4 +35,4 @@ function attachGetQRAuthenticationById(app){
     return app;
 }
 
-module.exports = attachGetQRAuthenticationById;
+module.exports = attachGetQRAuthenticationByTitle;
