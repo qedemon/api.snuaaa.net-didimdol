@@ -51,6 +51,18 @@ module.exports = {
             return `${user.name}(${user.major}) ${context.title}에 참가하였습니다.`
         }
     },
+    "장비 실습":{
+        span: 60*60*1000,
+        context: (at)=>{
+            const koreanDate = at.toLocaleDateString('ko-KR', {timeZone: 'Asia/Seoul'})
+            return {
+                title: `${koreanDate} 장비 실습`
+            }
+        },
+        logMessage: (user, at, context)=>{
+            return `${user.name}(${user.major}) ${context.title}에 참가하였습니다.`
+        }
+    },
     "etc": {
         span: 60*60*1000,
         context: (at, {title})=>{
