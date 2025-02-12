@@ -6,6 +6,7 @@ const QRAuthenticationLog = require("./QRAuthenticationLog");
 const DidimdolClass = require("./DidimdolClass");
 const Log = require("./Log");
 const GoogleDriveWatch = require("./GoogleDriveWatch");
+const FrontendEnv = require("./FrontendEnv");
 
 module.exports = {
     User,
@@ -15,5 +16,6 @@ module.exports = {
     QRAuthenticationLog,
     DidimdolClass,
     Log,
-    GoogleDriveWatch
+    GoogleDriveWatch,
+    FrontendEnv
 }
