@@ -1,11 +1,11 @@
 const express = require("express");
+const {frontendEnv} = require("./core");
 
 const app = express();
-app.get("/", (req, res)=>{
+app.get("/", async (req, res)=>{
+    const value = await frontendEnv();
     res.json(
-        {
-            name: "frontendEnv"
-        }
+        value
     )
 })
 app.onLoad = ()=>{

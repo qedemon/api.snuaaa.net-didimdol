@@ -10,7 +10,7 @@ async function frontendEnv(){
                 const loaded = await FrontendEnv.findOne();
                 if(loaded)
                     return loaded;
-                const created = await FrontendEnv.create({});
+                const created = await FrontendEnv.create({values: {}});
                 return created;
             }
         )();

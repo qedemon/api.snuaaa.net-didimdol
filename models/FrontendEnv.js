@@ -3,7 +3,7 @@ const {getNow} = require("modules/time/core");
 
 const FrontendEnvSchema = new mongoose.Schema(
     {
-        가입비: {type: String},
+        values: {type: mongoose.Schema.Types.Mixed, default: ()=>{return {}}},
         createdAt: {type: Date, default: ()=>getNow()},
     },
     {
