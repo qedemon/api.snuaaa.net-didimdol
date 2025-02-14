@@ -19,7 +19,8 @@ function attachUpdateDidimdolClasses(app){
             }
             res.json(
                 {
-                    result: Result.success
+                    result: Result.success,
+                    didimdolClasses
                 }
             );
         }
