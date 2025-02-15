@@ -7,10 +7,10 @@ async function allDidimdolClasses(select=[], populate=["lecturer", "assistants",
         await connect();
         const didimdolClasses = await populate.reduce(
             (result, populate)=>{
-                return result.populate({path: populate, select: ["name", "id", "major", "colNo", "aaaNo", "attendant"], populate: {path: "QRAuthenticationLogs", populate: "authentication"}}).populate({path: "wants"});
+                return result.populate({path: populate, select: ["name", "id", "major", "colNo", "aaaNo", "attendant"], populate: {path: "QRAuthenticationLogs", populate: "authentication"}});
             },
             DidimdolClass.find({hide: {$ne: true}}).select(select)
-        );
+        ).populate({path: "wants"});
             
         return {
             didimdolClasses: didimdolClasses.map(
