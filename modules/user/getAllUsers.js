@@ -14,7 +14,7 @@ async function getAllUsers(filter={}, select=[], populate=["didimdolClass.belong
                     query
                 )
             },
-            "didimdolClass.wants": (query)=>query.populate("didimdolClass.firstWant.didimdolClass", ["_id", "title", "daytime"])
+            "didimdolClass.wants": (query)=>query.populate("didimdolClass.firstWant.didimdolClass", ["_id", "title", "daytime"]).populate("didimdolClass.lastWants", ["_id", "title", "daytime"])
         }
         const users = (
             await (
