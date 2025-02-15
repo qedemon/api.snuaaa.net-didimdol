@@ -39,11 +39,8 @@ const UserSchema = new mongoose.Schema(
             },
             lastWants: [
                 {
-                    didimdolClass: {
-                        type: mongoose.Schema.Types.ObjectId,
-                        ref: "DidimdolClass"
-                    },
-                    at: {type: Date}
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: "DidimdolClass"
                 }
             ],
             /*wants: [
@@ -152,7 +149,7 @@ UserSchema.virtual("didimdolClass.wants").get(
     function(){
         const firstWant = this.didimdolClass?.firstWant?.didimdolClass;
 
-        return [...(firstWant?[firstWant]:[]), ...this.didimdolClass?.lastWants.map(({didimdolClass})=>didimdolClass)];
+        return [...(firstWant?[firstWant]:[]), ...this.didimdolClass?.lastWants];
     }
 )
 

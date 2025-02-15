@@ -6,6 +6,7 @@ const attachGetAllUsers = require("./getAllUsers.api");
 const attachUpdateUsers = require("./updateUsers.api");
 const attachFindId = require("./findId.api");
 const attachResetPassword = require("./resetPassword.api");
+const attachUpdateDidimdolWants = require("./updateDidimdolWants.api");
 const express = require("express");
 
 const app = express();
@@ -17,6 +18,7 @@ attachGetAllUsers(app);
 attachUpdateUsers(app);
 attachFindId(app);
 attachResetPassword(app);
+attachUpdateDidimdolWants(app);
 
 app.onLoad = ()=>{
     console.log("user module loaded.");

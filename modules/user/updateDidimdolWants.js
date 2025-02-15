@@ -21,11 +21,25 @@ async function updateDidimdolWants(userId, wants){
                 at: now
             }
         }
+        user.didimdolClass.lastWants=lastWants;
+
+        /*user.didimdolClass.lastWants = Array.from(
+            {
+                length: (
+                    (A, B)=>
+                        A>B?A:B
+                )(user.didimdolClass.lastWants.length, lastWants.length),
+            },
+            
+            (v, index)=>{
+                const prev = 
+            }
+        )*/
 
         await user.save();
 
         return {
-            user: user.toObject({virtuals: true})
+            updated: user.toObject({virtuals: true})
         }
     }
     catch(error){
