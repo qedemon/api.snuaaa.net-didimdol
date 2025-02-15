@@ -29,6 +29,7 @@ async function allDidimdolClasses(select=[], populate=["lecturer", "assistants",
         }
     }
     catch(error){
+        console.log(error);
         return {
             error
         }

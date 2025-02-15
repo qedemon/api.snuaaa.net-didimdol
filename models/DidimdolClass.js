@@ -101,7 +101,7 @@ DidimdolClassSchema.virtual("attendant").get(
 DidimdolClassSchema.virtual('wants', {
     ref: 'User', // The model to use
     localField: "_id",
-    foreignField: 'didimdolClass.wants[0]', // is equal to `foreignField`
+    foreignField: 'didimdolClass.firstWant.didimdolClass', // is equal to `foreignField`
     count: true, // And only get the number of docs
     match: {isStudent: true}
 });
