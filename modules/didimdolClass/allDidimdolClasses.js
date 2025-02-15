@@ -7,7 +7,7 @@ async function allDidimdolClasses(select=[], populate=["lecturer", "assistants",
         await connect();
         const didimdolClasses = await populate.reduce(
             (result, populate)=>{
-                return result.populate({path: populate, select: ["name", "id", "major", "colNo", "aaaNo", "attendant"], populate: {path: "QRAuthenticationLogs", populate: "authentication"}});
+                return result.populate({path: populate, select: ["name", "id", "major", "colNo", "aaaNo", "attendant"], populate: {path: "QRAuthenticationLogs", populate: "authentication"}}).populate({path: "wants"});
             },
             DidimdolClass.find({hide: {$ne: true}}).select(select)
         );
