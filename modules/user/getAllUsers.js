@@ -1,7 +1,7 @@
 const {mongoose: {connect}} = require("Utility");
 const {User} = require("models");
 
-async function getAllUsers(filter={}, select=[], populate=["didimdolClass.belongs"]){
+async function getAllUsers(filter={}, select=[], populate=["didimdolClass.belongs", "didimdolClass.wants"]){
     try{
         await connect();
         const populations = {
@@ -14,7 +14,7 @@ async function getAllUsers(filter={}, select=[], populate=["didimdolClass.belong
                     query
                 )
             },
-            "didimdolClass.wants": (query)=>query.populate("didimdolClass.wants", ["_id", "title", "daytime"])
+            "didimdolClass.wants": (query)=>query.populate("didimdolClass.firstWant.didimdolClass", ["_id", "title", "daytime"])
         }
         const users = (
             await (
