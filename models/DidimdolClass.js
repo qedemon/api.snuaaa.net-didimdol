@@ -48,6 +48,10 @@ const DidimdolClassSchema = new mongoose.Schema(
         freeze: {
             type: Boolean,
             default: false
+        },
+        maxWant: {
+            type: Number,
+            default: 20
         }
     },
     {
@@ -94,6 +98,13 @@ DidimdolClassSchema.virtual("attendant").get(
         );
     }
 )
+DidimdolClassSchema.virtual('wants', {
+    ref: 'User', // The model to use
+    localField: "_id",
+    foreignField: 'didimdolClass.firstWant.didimdolClass', // is equal to `foreignField`
+    count: true, // And only get the number of docs
+    match: {isStudent: true}
+});
 
 const DidimdolClass = mongoose.model("DidimdolClass", DidimdolClassSchema);
 

@@ -7,6 +7,7 @@ const changePassword = require("./changePassword");
 const matchPassword = require("./matchPassword");
 const getAllUsers = require("./getAllUsers");
 const updateUsers = require("./updateUsers");
+const updateDidimdolWants = require("./updateDidimdolWants");
 
 module.exports = {
     getUserBy_id,
@@ -17,5 +18,6 @@ module.exports = {
     changePassword,
     matchPassword,
     getAllUsers,
-    updateUsers
+    updateUsers,
+    updateDidimdolWants
 }

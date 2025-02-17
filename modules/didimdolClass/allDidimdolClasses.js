@@ -10,7 +10,7 @@ async function allDidimdolClasses(select=[], populate=["lecturer", "assistants",
                 return result.populate({path: populate, select: ["name", "id", "major", "colNo", "aaaNo", "attendant"], populate: {path: "QRAuthenticationLogs", populate: "authentication"}});
             },
             DidimdolClass.find({hide: {$ne: true}}).select(select)
-        );
+        ).populate({path: "wants"});
             
         return {
             didimdolClasses: didimdolClasses.map(
@@ -29,6 +29,7 @@ async function allDidimdolClasses(select=[], populate=["lecturer", "assistants",
         }
     }
     catch(error){
+        console.log(error);
         return {
             error
         }

@@ -11,7 +11,7 @@ function attachAllDidimdolClasses(app){
             if(!req.authorization?.authorized){
                 throw new Error("invalid user");
             }
-            const {didimdolClasses, error} = await (req?.authorization?.userInfo?.isAdmin?allDidimdolClasses():allDidimdolClasses(["title", "daytime", "description", "freeze"], []));
+            const {didimdolClasses, error} = await (req?.authorization?.userInfo?.isAdmin?allDidimdolClasses():allDidimdolClasses(["title", "daytime", "description", "freeze", "wants", "maxWant"], []));
             if(error){
                 throw error
             }

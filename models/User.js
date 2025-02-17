@@ -30,7 +30,14 @@ const UserSchema = new mongoose.Schema(
         createdAt: {type: Date, default: new Date("2024-02-29")},
         paid: {type: Boolean, default: false},
         didimdolClass: {
-            wants: [
+            firstWant: {
+                didimdolClass: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: "DidimdolClass"
+                },
+                at: {type: Date}
+            },
+            lastWants: [
                 {
                     type: mongoose.Schema.Types.ObjectId,
                     ref: "DidimdolClass"
@@ -53,6 +60,7 @@ const UserSchema = new mongoose.Schema(
         attendant: {
             info: mongoose.Schema.Types.Mixed,
         },
+        trained: {type: Boolean, default: false},
         push: PushSchema
     },
     {
@@ -132,6 +140,13 @@ UserSchema.virtual("didimdolClass.belongs").get(
         .filter(({didimdolClass:{hide}})=>!hide)
     }
 );
+UserSchema.virtual("didimdolClass.wants").get(
+    function(){
+        const firstWant = this.didimdolClass?.firstWant?.didimdolClass;
+
+        return [...(firstWant?[firstWant]:[]), ...(this.didimdolClass?.lastWants??[])];
+    }
+)
 
 const User = mongoose.model("User", UserSchema);
 
