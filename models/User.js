@@ -60,6 +60,7 @@ const UserSchema = new mongoose.Schema(
         attendant: {
             info: mongoose.Schema.Types.Mixed,
         },
+        trained: {type: Boolean, default: false},
         push: PushSchema
     },
     {

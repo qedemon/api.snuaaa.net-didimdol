@@ -21,21 +21,25 @@ async function updateDidimdolWants(userId, wants){
         )((Array.isArray(wants) && wants.length>0)?wants[0]:null);
         const lastWants = (Array.isArray(wants) && wants.length>0)?wants.slice(1):[];
 
+        let message = null;
         if(firstWant?._id!=user.didimdolClass.firstWant.didimdolClass){
             if(firstWant && firstWant.wants>=firstWant.maxWant){
-                throw new Error("정원 초과");
+                message = "정원 초과";
             }
-            user.didimdolClass.firstWant={
-                ...user.didimdolClass.firstWant,
-                didimdolClass: firstWant?._id??null,
-                at: now
+            else{
+                user.didimdolClass.firstWant={
+                    ...user.didimdolClass.firstWant,
+                    didimdolClass: firstWant?._id??null,
+                    at: now
+                }
             }
         }
         user.didimdolClass.lastWants=lastWants;
         await user.save();
 
         return {
-            updated: user.toObject({virtuals: true})
+            updated: user.toObject({virtuals: true}),
+            message
         }
     }
     catch(error){

@@ -15,14 +15,15 @@ function attachUpdateDidimdolWants(app){
                 throw new Error("permission denied.");
             }
             
-            const {updated, error} = await updateDidimdolWants(id, wants);
+            const {updated, message, error} = await updateDidimdolWants(id, wants);
             if(error){
                 throw error;
             }
             res.json(
                 {
                     result: Result.success,
-                    updated
+                    updated,
+                    message
                 }
             )
         }
