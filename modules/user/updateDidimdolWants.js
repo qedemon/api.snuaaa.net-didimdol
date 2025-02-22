@@ -7,7 +7,7 @@ async function updateDidimdolWants(userId, wants){
     try{
         await connect();
         const loadedEnv = await frontendEnv();
-        const {수강신청일시} = loadedEnv.values;
+        const 수강신청일시 = ((dateString)=>dateString?new Date(dateString):null)(loadedEnv.values.수강신청일시);
         const user = await User.findOne({id: userId});
         if(!user){
             throw new Error(`no user with ID ${userId}`);
