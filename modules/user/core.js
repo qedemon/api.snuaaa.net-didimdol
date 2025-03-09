@@ -8,6 +8,7 @@ const matchPassword = require("./matchPassword");
 const getAllUsers = require("./getAllUsers");
 const updateUsers = require("./updateUsers");
 const updateDidimdolWants = require("./updateDidimdolWants");
+const remoteResetPassword = require("./remoteResetPassword");
 
 module.exports = {
     getUserBy_id,
@@ -19,5 +20,6 @@ module.exports = {
     matchPassword,
     getAllUsers,
     updateUsers,
-    updateDidimdolWants
+    updateDidimdolWants,
+    remoteResetPassword
 }

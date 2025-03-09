@@ -32,9 +32,10 @@ function attachGetAllUsers(app){
     })
     app.get("/getAllUsers/:target/:requirePopulate", async (req, res)=>{
         try{
-            if(!req.authorization?.userInfo?.isAdmin){
+            if(!req.authorization?.userInfo){
                 throw new Error("permission error");
             }
+            const isAdmin = req.authorization?.userInfo?.isAdmin;
             const [target, filter] = (
                 (target)=>{
                     if(!target){
@@ -43,8 +44,8 @@ function attachGetAllUsers(app){
                     return filters[target]?[target, filters[target]]:["all", filters.all];
                 }
             )(req.params.target);
-            const requirePopulate = req.params.requirePopulate==="true";
-            const {users, error} = await getAllUsers(filter, ["-password", "-_id"], requirePopulate?["didimdolClass.belongs", "didimdolClass.wants"]:[]);
+            const requirePopulate = (req.params.requirePopulate==="true")&&(isAdmin===true);
+            const {users, error} = await getAllUsers(filter, isAdmin?["-password", "-_id"]:["aaaNo", "id", "name", "email", "major", "createdAt", "depositor"], requirePopulate?["didimdolClass.belongs", "didimdolClass.wants"]:[]);
             if(error){
                 throw error;
             }
