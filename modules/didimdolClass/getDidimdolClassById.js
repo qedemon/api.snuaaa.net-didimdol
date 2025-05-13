@@ -2,12 +2,12 @@ require("dotenv").config();
 const {mongoose: {connect}} = require("Utility");
 const {DidimdolClass} = require("models");
 
-async function getDidimdolClassById(classId){
+async function getDidimdolClassById(classId, select=[]){
     try{
         await connect();
         const didimdolClass = await ["lecturer", "assistants", "students"].reduce(
             (result, populate)=>{
-                return result.populate({path: populate, select: ["name", "id", "major", "colNo", "aaaNo", "attendant"], populate: {path: "QRAuthenticationLogs", populate: "authentication"}});
+                return result.populate({path: populate, select: ["name", "id", "major", "colNo", "aaaNo", "attendant", ...select], populate: {path: "QRAuthenticationLogs", populate: "authentication"}});
             },
             DidimdolClass.findById(classId)
         );

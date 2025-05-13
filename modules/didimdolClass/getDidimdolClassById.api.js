@@ -20,7 +20,7 @@ function attachGetDidimdolClassById(app){
                 throw new Error(`access to ${targetId} is not permitted`)
             }
 
-            const {didimdolClass, error} = await getDidimdolClassById(targetId);
+            const {didimdolClass, error} = await getDidimdolClassById(targetId, ["mobile", "createdAt"]);
             if(error){
                 throw error;
             }

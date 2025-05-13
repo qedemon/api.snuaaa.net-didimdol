@@ -25,54 +25,56 @@ async function updateDidimdolWants(userId, wants){
         const lastWants = (Array.isArray(wants) && wants.length>0)?wants.slice(1):[];
 
         let message = null;
-        if((firstWant===null) || ((firstWant?._id?.equals) && !firstWant._id.equals(user.didimdolClass.firstWant.didimdolClass))){
-            if((수강신청일시 instanceof Date) && now<수강신청일시){
-                message = `신청 기간이 아님`
-            }
-            else if(firstWant && firstWant.wants>=firstWant.maxWant){
-                message = "정원 초과";
+        if((수강신청일시 instanceof Date) && now<수강신청일시){
+            message = `신청 기간이 아님`;
+        }
+        else {
+            if((firstWant===null) || ((firstWant?._id?.equals) && !firstWant._id.equals(user.didimdolClass.firstWant.didimdolClass))){
+                if(firstWant && firstWant.wants>=firstWant.maxWant){
+                    message = "정원 초과";
+                }
+                else{
+                    const prev = user.didimdolClass?.firstWant?.didimdolClass;
+
+                    user.didimdolClass.firstWant={
+                        ...user.didimdolClass.firstWant,
+                        didimdolClass: firstWant?._id??null,
+                        at: now
+                    }
+                    await Log.create(
+                        {
+                            message: {
+                                user: {
+                                    name: user.name,
+                                    id: user.id,
+                                },
+                                didimdolClass: firstWant,
+                                prev,
+                                at: now,
+                                info: "변경됨"
+                            }
+                        }
+                    )
+                    }
             }
             else{
-                const prev = user.didimdolClass?.firstWant?.didimdolClass;
-
-                user.didimdolClass.firstWant={
-                    ...user.didimdolClass.firstWant,
-                    didimdolClass: firstWant?._id??null,
-                    at: now
-                }
                 await Log.create(
                     {
                         message: {
                             user: {
                                 name: user.name,
-                                id: user.id,
+                                id: user.id
                             },
-                            didimdolClass: firstWant,
-                            prev,
-                            at: now,
-                            info: "변경됨"
+                            firstWant: firstWant,
+                            info: "변경되지 않음"
                         }
                     }
-                )
+                );
             }
+            
+            user.didimdolClass.lastWants=lastWants;
+            await user.save();
         }
-        else{
-            await Log.create(
-                {
-                    message: {
-                        user: {
-                            name: user.name,
-                            id: user.id
-                        },
-                        firstWant: firstWant,
-                        info: "변경되지 않음"
-                    }
-                }
-            );
-        }
-
-        user.didimdolClass.lastWants=lastWants;
-        await user.save();
 
         return {
             updated: user.toObject({virtuals: true}),

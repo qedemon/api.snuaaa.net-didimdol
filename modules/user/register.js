@@ -10,13 +10,22 @@ const {getNow} = require("modules/time/core");
 
 const validations = {
     name: (value)=>{
-        return (value.length>0)?
-        {
-            result: true
-        }:
-        {
-            result: false,
-            message: "적어도 한 글자 이상 입력해주세요."
+        if(value.length<=0){
+            return {
+                result: false,
+                message: "적어도 한 글자 이상 입력해주세요."
+            }
+        }
+        else if(value.length>20){
+            return {
+                result: false,
+                message: "이름은 20글자 이하로 해주세요요"
+            }
+        }
+        else{
+            return {
+                result: true
+            }
         }
     },
     colNo: (value)=>{
@@ -158,16 +167,6 @@ async function register(userInfo){
             }
         )(added);
         
-        await connect();
-        const localRegistered = await User.create({...crypted, createdAt: getNow(), isStudent: true});
-        const localToken = createToken(localRegistered);
-
-        const withoutPassword = (
-            ({password:_, ...userInfo})=>{
-                return userInfo;
-            }
-        )(localRegistered.toObject());
-
         const remoteUserInfo = convertLocalToRemote.convertUser(added);
         
         await request.post("api/auth/signup", remoteUserInfo); //회원가입
@@ -181,6 +180,16 @@ async function register(userInfo){
                 return {token, userInfo};
             }
         )(remoteUserInfo.id, remoteUserInfo.password);
+
+        await connect();
+        const localRegistered = await User.create({...crypted, createdAt: getNow(), isStudent: true});
+        const localToken = createToken(localRegistered);
+
+        const withoutPassword = (
+            ({password:_, ...userInfo})=>{
+                return userInfo;
+            }
+        )(localRegistered.toObject());
 
         return {
             userInfo: withoutPassword,
